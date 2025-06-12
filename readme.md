@@ -118,6 +118,7 @@ Observamos que tiene la IP 192.168.1.50, intentamos conectarnos por SSH.
 Nos deniega la conexión, ahora vamos a activarlo.
 
 ![9](IMG/Pasted%20image%2020250422094242.png)
+
 Estando en modo configuración, escribimos el comando:
 ```python
 set service ssh
@@ -126,7 +127,9 @@ save
 ```
 
 Guardamos y aplicamos cambios, volvemos a probar SSH.
+
 ![10](IMG/Pasted%20image%2020250422094346.png)
+
 > [!tip] 
 Vemos que ya tenemos acceso.
 
@@ -134,14 +137,18 @@ Vemos que ya tenemos acceso.
 ## <u>Mikrotik</u>
 
 Una vez que hemos iniciado la máquina virtual, abrimos la aplicación Winbox de Mikrotik, nos vamos al apartado **Neighbors** y seleccionamos nuestro router.
+
 ![11](IMG/Pasted%20image%2020250422094644.png)
 Lo podemos identificar por la MAC.
+
 ![12](IMG/Pasted%20image%2020250422094714.png)
 
 Por defecto, para entrar a un router Mikrotik, el usuario es admin y la contraseña en blanco, ya que después de entrar te pide cambiar la contraseña.
+
 ![13](IMG/Pasted%20image%2020250422094802.png)
 
 Ahora intentamos acceder por SSH a nuestro router Mikrotik, normalmente, viene activado y no hace falta ninguna configuración adicional.
+
 ![14](IMG/Pasted%20image%2020250422094944.png)
 > [!warning]
 > SSH en Mikrotik se va a usar poco o nada ya que con la aplicación Winbox lo puedes hacer todo de manera gráfica.
@@ -178,24 +185,33 @@ save
 
 ![16](IMG/Pasted%20image%2020250422103523.png)
 ![17](IMG/Pasted%20image%2020250422103608.png)
+
 Ya no pone DHCP como antes:
+
 ![18](IMG/Pasted%20image%2020250422103645.png)
 
 ### <u>Mikrotik</u>
 
 Vamos a IP > Addresses.
+
 ![19](IMG/Pasted%20image%2020250422111656.png)
+
 Podemos ver que a la izquierda tiene una D que significa dinámico, vamos a ponerlo estático.
 
 Primero lo que hacemos es añadir IP a otra interfaz (por si acaso perdemos acceso) y eliminar la IP de ether1 dándole al "-" rojo. Una vez hecho eso nos sacará del router, normalmente se puede acceder por MAC:
+
 ![20](IMG/Pasted%20image%2020250422112150.png)
+
 Como podemos ver arriba donde pone "Session" está la MAC de la máquina virtual. También está la IP de la interfaz que hemos configurado por si perdíamos acceso, pues ahora cambiamos la IP y la interfaz para que sea la ether1 (que es la que sale a internet y puede actuar como puente).
 
 Le damos doble click y completamos la configuración, importante poner la máscara de red para que se autorrellene el campo de Network.
+
 ![21](IMG/Pasted%20image%2020250422125852.png)
+
 Le damos a "Apply" y "Ok".
 
 ![22](IMG/Pasted%20image%2020250422112304.png)
+
 Ya tenemos la IP estática.
 
 ## 6.2 VLANs
@@ -210,6 +226,7 @@ Estas configuraciones las vamos a hacer de 2 maneras diferentes para que se vea 
 
 #### <u>1er método</u>
 ![23](IMG/Pasted%20image%2020250424141016.png|600)
+
 <div class="page-break" style="page-break-before: always;"></div>
 
 ![24](Pasted%20image%2020250424141303.png)
@@ -241,7 +258,9 @@ save # Guardamos
   Si creamos una **VLAN** en la interfaz eth1, por ejemplo, la VLAN10 y en `vif` le decimos 10, crearía como una **subinterfaz** dentro de eth1 que se llamaría eth1.10.
 
 #### <u>Permitir salida a internet</u>
+
 ![25](Pasted%20image%2020250424143923.png)
+
 ```python
 config
 
@@ -280,6 +299,7 @@ En este primer caso **no se está etiquetando el tráfico** porque estamos usand
 
 ![27](IMG/Pasted%20image%2020250424144230.png)
 ![28](IMG/Pasted%20image%2020250427170351.png)
+
 > [!tip] 
 Como podemos ver, el cliente recibe IP y sale a internet
 
@@ -290,17 +310,21 @@ La creación y configuración de VLANs en Mikrotik es relativamente sencillo al 
 Este método consiste en simplemente, aplicar las VLANs directamente en las interfaces en vez de crear un puente y meter todas ahí, que es lo que haremos en el 2º método.
 
 Nos vamos a la interfaz, le damos click derecho>Add>VLAN.
+
 ![29](IMG/Pasted%20image%2020250424133921.png)
 
 Aquí simplemente rellenamos la información necesaria, Name, VLAN ID e Interface. Le damos a Apply y a Ok.
+
 ![30](IMG/Pasted%20image%2020250424134117.png)
 
 Ahora, nos vamos a IP > Addresses y le asignamos IP a VLAN40.
+
 ![31](IMG/Pasted%20image%2020250424134329.png)
 ![32](IMG/Pasted%20image%2020250424134451.png)
 
 Ahora creamos el servidor DHCP.
 Le damos a DHCP Setup para una fácil creación.
+
 ![33](IMG/Pasted%20image%2020250424134559.png)
 ![34](IMG/Pasted%20image%2020250424134622.png)
 ![35](IMG/Pasted%20image%2020250424134634.png)
@@ -313,13 +337,16 @@ Le damos a DHCP Setup para una fácil creación.
 Para permitir la salida a internet en estos casos, hay que aplicar NAT:
 
 Nos vamos a IP>Firewall>NAT>+
+
 ![40](IMG/Pasted%20image%2020250424142243.png)
+
 Rellenamos los campos necesarios:
 * **Chain:** Ponemos srcnat.
 * **Src. Address:** Ponemos 0.0.0.0/0 para que entre todo.
 * **Out.Interface:** Ponemos ether1 porque es la WAN.
 
 Ahora en action ponemos masquerade.
+
 ![41](IMG/Pasted%20image%2020250424142614.png)
 
 > Así podrá salir a internet.
@@ -340,6 +367,7 @@ Ahora viene la parte "complicada" de este método, que el equipo sepa ir a la VL
 ![[1.2.png]]
 ![[2.png]]
 ![42](IMG/Pasted%20image%2020250424135643.png)
+
 Y eso sería toda la configuración de una VLAN directamente sobre una interfaz.
 
 #### <u>2º Método</u>
@@ -360,6 +388,7 @@ No he conseguido reproducir este mismo ejemplo exactamente como en Mikrotik en *
 ### <u>VyOS</u>
 
 ![42.1](IMG/Pasted%20image%2020250509134945.png)
+
 Comprobamos que no tenemos ninguna interfaz extra ya que podría dar fallo.
 
 Ahora, nos metemos en modo configuración e insertamos todos los comandos siguientes:
@@ -422,9 +451,11 @@ save
 >Un **puerto en modo access** es un puerto configurado para conectarse a una sola VLAN y no usa etiquetas especiales en los paquetes. Esto significa que todo el tráfico que entra o sale por ese puerto pertenece siempre a esa VLAN específica, sin que los dispositivos conectados tengan que saber nada sobre VLANs. Es el modo ideal para ordenadores, impresoras u otros dispositivos comunes que no entienden de redes VLAN.
 
 ![43](IMG/Pasted%20image%2020250509135154.png)
+
 Una vez insertada la pila de comandos y habiendo hecho commit y save para que se guarden los cambios, volvemos atrás para observar si todo se ha creado correctamente. Vemos que tenemos 3 VLANs que se han creado en el puente y que a través de los comandos anteriores, hemos asociado a cada puerto físico.
 
 ![44](IMG/Pasted%20image%2020250509135341.png)
+
 Si ponemos el comando ```show bridge br0``` vemos las interfaces añadidas al bridge.
 
 > [!tip] 
@@ -447,9 +478,11 @@ El mismo concepto se aplica en Mikrotik, aunque la implementación sea diferente
 ### <u>Mikrotik</u>
 
 ![46](IMG/Pasted%20image%2020250509142622.png)
+
 Lo primero que vamos a hacer en Mikrotik va a ser ir a Interfaces > + > Bridge.
 
 ![47](Pasted%20image%2020250509142719.png)
+
 Vamos a llamarle simplemente "bridge1"
 
 Ahora nos vamos al apartado **VLAN** y activamos VLAN Filtering
@@ -463,24 +496,31 @@ Ahora le damos a Apply y a OK.
 
 Ahora, en el mismo apartado de Interface, buscamos la categoría VLAN y le damos al + para crearla.
 ![48](Pasted%20image%2020250509142952.png)
+
 Teniendo en cuenta lo que está en azul, cambiamos el nombre de la VLAN para que sea VLAN10, el VLAN ID también lo cambiamos al número que queramos, en mi caso 10, y cambiamos Interface a el bridge que hemos creado antes. Le damos a Apply y a Ok.
 
 Ahora, en la barra de la izquierda, nos vamos hacia Bridge > Ports > +
 ![49](IMG/Pasted%20image%2020250509143228.png)
+
 Insertamos la interfaz física que queramos asignar a la VLAN 10 al bridge creado anteriormente y después nos vamos a la pestaña VLAN.
 
 ![50](IMG/Pasted%20image%2020250509143304.png)
+
 Aquí simplemente, en PVID, insertamos la VLAN ID que le pusimos anteriormente a la VLAN.
 
 ![51](IMG/Pasted%20image%2020250509144229.png)
+
 Ahora, vamos a IP > Addresses > + y le asignamos IP a la VLAN.
 
 ![52](IMG/Pasted%20image%2020250509144322.png)
+
 Seguidamente, como vimos anteriormente, creamos el servidor DHCP para esa VLAN.
 
 ![53](IMG/Captura%201.png)
+
 Ahora renovamos IP en el equipo cliente que está conectado **directamente** por cable al router Mikrotik en el puerto ethernet1 y vemos que nos da perfectamente una IP.
 ![54](IMG/Pasted%20image%2020250509144631.png)
+
 En Mikrotik, en DHCP Server > Leases, también vemos perfectamente que se le ha asignado al equipo.
 
 ---
@@ -499,6 +539,7 @@ Aunque no son avanzadas como tal, sí que son un poco más complejas y completas
 Vamos a hacer algo fácil primero, vamos a permitir el tráfico de FTP y SSH pero vamos a bloquear el acceso por Telnet.
 
 ![56](IMG/Pasted%20image%2020250427172730.png)
+
 ```python
 set firewall ipv4 name WAN default-action drop # Por defecto, a menos que se diga lo contrario, todo se dropea, es decir, no pasa el tráfico
 
@@ -540,10 +581,12 @@ set firewall ipv4 name WAN rule 30 inbound-interface name eth0
 Vamos a comprobarlo, desde un contenedor Debian 12 voy a intentar conectarme por SSH y Telnet.
 
 ![58](IMG/Pasted%20image%2020250427174959.png)
+
 > [!tip] 
 Como podemos observar, me deja perfectamente, vamos ahora con Telnet.
 
 ![59](IMG/Pasted%20image%2020250427174009.png)
+
 > [!tip] 
 Perfecto, lo rechaza.
 
@@ -552,6 +595,7 @@ Perfecto, lo rechaza.
 Para hacerlo en Mikrotik es más sencillo, nos vamos a IP > Firewall > Filter Rules > +.
 
 ![60](IMG/Pasted%20image%2020250428083333.png)
+
 * **Chain: input.** En este caso es Input porque el tráfico termina en el router.
 * **Protocol: 6 (tcp).** Protocolo TCP.
 * **In. Interface: ether1.** La interfaz por la que va a venir el tráfico es la ether1.
@@ -564,10 +608,12 @@ Para hacerlo en Mikrotik es más sencillo, nos vamos a IP > Firewall > Filter Ru
 
 ![62](IMG/Pasted%20image%2020250428083658.png)
 ![63](IMG/Pasted%20image%2020250428083908.png)
+
 > [!tip] 
 Vemos que se queda pensando y no entramos.
 
 Ahora seguimos casi el mismo procedimiento para Telnet, cambiamos el puerto por el 23 y en Action ponemos drop.
+
 ![64](IMG/Pasted%20image%2020250428085011.png)
 ![65](IMG/Pasted%20image%2020250428085026.png)
 
@@ -586,11 +632,14 @@ He creado un servidor apache2 en un equipo con la IP 192.168.10.101, que se encu
 ### <u>VyOS</u>
 
 ![66](IMG/Pasted%20image%2020250428115223.png)
+
 > [!caution] 
 Si intentamos hacer un wget, nos rechaza la conexión.
 
 Vamos a escribir los siguientes comandos:
+
 ![67](IMG/Pasted%20image%2020250428115829.png)
+
 >[!note]
 >Ignoramos ese error que me aparece, se debe a una configuración de prueba anterior, funciona igualmente.
 
@@ -616,6 +665,7 @@ show nat destination rules
 
 ![67.1](Pasted%20image%2020250428120012.png)
 ![67.2](Pasted%20image%2020250428115102.png)
+
 > [!tip] 
 Donde vemos que antes rechazaba la conexión, ahora recoge el index.html.
 
@@ -624,9 +674,11 @@ Donde vemos que antes rechazaba la conexión, ahora recoge el index.html.
 En Mikrotik es bastante más fácil:
 
 Nos vamos a IP > Firewall > Firewall Rules > +
+
 ![68](IMG/Pasted%20image%2020250429085254.png)  
 ![69](IMG/Pasted%20image%2020250429085359.png)  
 ![70](IMG/Pasted%20image%2020250429085413.png)  
+
 Creamos una regla Forward ya que lo vamos a redirigir a un equipo que no es el router (si no, sería input). En Action ponemos Accept para que acepte la conexión.
 
 ![71](IMG/Captura%201.png)
