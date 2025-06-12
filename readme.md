@@ -741,11 +741,11 @@ Entorno de prueba
  
 Aquí muestro las interfaces:
 
-![75](Pasted%20image%2020250512215437.png)
+![75](IMG/Pasted%20image%2020250512215437.png)
 
 Ponemos estos comandos:
 
-![76](Pasted%20image%2020250512220618.png)
+![76](IMG/Pasted%20image%2020250512220618.png)
 
 ```python
 set protocols bgp system-as 65001 # Decimos que nuestro AS (Autonomous System) es el número 65001
@@ -1262,7 +1262,7 @@ Nos esperamos unos segundos y vemos que se crean los servicios DHCP.
 
 Observamos que la IP activa es la 192.168.30.100.
 
-![112](Captura%20pantalla20%205-06-05 112559.png)
+![112](IMG/Captura%20pantalla20%205-06-05 112559.png)
 
 Y ahora si volvemos a activar el Mikrotik:
 
@@ -1369,7 +1369,7 @@ Una vez que la activemos, para saber si realmente está funcionando nuestro tún
 Como podemos observar, le hace ping correctamente.
 
 >[!warning]  
-### IMPORTANTE
+>### IMPORTANTE
 >Aunque suene lógico, es muy importante que cuando intentemos conectarnos al túnel estemos fuera de la red a la que queremos conectarnos, ya que si no, no funcionaría para nada e incluso nos podría dar problemas de conexión.
 
 ### <u>Mikrotik</u>
@@ -1618,7 +1618,7 @@ Nos vamos a RADIUS > +
 * **Require Message Auth**: no. En mi caso lo puse en no porque no configuré ningún mensaje.
 
 >[!warning] 
-#### IMPORTANTE
+>#### IMPORTANTE
 >Es importante poner `Require Message Auth` en `no` si no lo tenemos configurado, ya que si lo dejamos en `yes` nos puede dar error y no iniciarnos sesión.
 
 Le damos a Apply y Ok.
