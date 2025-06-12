@@ -1,29 +1,29 @@
 # Índice
 
-1. [[#1. Introducción📕|Introducción📕]]
-2. [[#2. Descripción de las tecnologías🖥️|Descripción de las tecnologías🖥️]]
-	2.1 [[#2.1 MikroTik (RouterOS)|MikroTik (RouterOS)]]
-	2.2 [[#2.2 VyOS|VyOS]]
-3. [[#3. Esquema de red🌐|Esquema de red🌐]]
-4. [[#4. Instalación⏬|Instalación⏬]]
-	4.1 [[#4.1 Vyos|Vyos]]
-	4.2 [[#4.2 RouterOS (Mikrotik)|RouterOS (Mikrotik)]]
-	4.3 [[#4.3 ¿Cuál me parece más cómodo de instalar?|¿Cuál me parece más cómodo de instalar?]]
-5. [[#5. Acceso remoto📶|Acceso remoto📶]]
-6. [[#6. Configuración básica🛠️|Configuración básica🛠️]]
-	6.1 [[#6.1 Configuración de interfaces|Configuración de interfaces]]
-	6.2	[[#6.2 VLANs|VLANs]]
-7. [[#7. Configuraciones avanzadas|Configuraciones avanzadas]]
-	7.1 [[#Firewall]]
-	7.2 [[#NAT]]
-	7.3 [[#Enrutamiento BGP]]
-	7.4 [[#Enrutamiento OSPF]]
-8. [[#8. VRRP (Failover)|VRRP (Failover)]]
-9. [[#9. WireGuard VPN📶|WireGuard VPN📶]]
-10. [[#10. Autenticación usando RADIUS☢️|Autenticación usando RADIUS☢️]]
-11. [[#11. Comparación general ⏹️|Comparación general ⏹️]]
-12. [[#12. Conclusiones🔚|Conclusiones🔚]]
-13. [[#13. Bibliografía y recursos 📚|Bibliografía y recursos 📚]]
+1. [Introducción📕](#1-introducción)
+2. [Descripción de las tecnologías🖥️](#2-descripción-de-las-tecnologías)
+   - [2.1 MikroTik (RouterOS)](#21-mikrotik-routeros)
+   - [2.2 VyOS](#22-vyos)
+3. [Esquema de red🌐](#3-esquema-de-red)
+4. [Instalación⏬](#4-instalación)
+   - [4.1 Vyos](#41-vyos)
+   - [4.2 RouterOS (Mikrotik)](#42-routeros-mikrotik)
+   - [4.3 ¿Cuál me parece más cómodo de instalar?](#43-cuál-me-parece-más-cómodo-de-instalar)
+5. [Acceso remoto📶](#5-acceso-remoto)
+6. [Configuración básica🛠️](#6-configuración-básica)
+   - [6.1 Configuración de interfaces](#61-configuración-de-interfaces)
+   - [6.2 VLANs](#62-vlans)
+7. [Configuraciones avanzadas](#7-configuraciones-avanzadas)
+   - [Firewall](#firewall)
+   - [NAT](#nat)
+   - [Enrutamiento BGP](#enrutamiento-bgp)
+   - [Enrutamiento OSPF](#enrutamiento-ospf)
+8. [VRRP (Failover)](#8-vrrp-failover)
+9. [WireGuard VPN📶](#9-wireguard-vpn)
+10. [Autenticación usando RADIUS☢️](#10-autenticación-usando-radius)
+11. [Comparación general ⏹️](#11-comparación-general)
+12. [Conclusiones🔚](#12-conclusiones)
+13. [Bibliografía y recursos 📚](#13-bibliografía-y-recursos)
 
 # 1. Introducción📕
 
