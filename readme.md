@@ -252,7 +252,7 @@ commit # Aplicamos cambios
 save # Guardamos
 ```
 
->[!info]
+>[!note]
 > En VyOS, las VLANs son vistas de la siguiente manera:
 >
   Si creamos una **VLAN** en la interfaz eth1, por ejemplo, la VLAN10 y en `vif` le decimos 10, crearía como una **subinterfaz** dentro de eth1 que se llamaría eth1.10.
@@ -875,7 +875,7 @@ PING
 
 ## Enrutamiento OSPF
 
->[!info] 
+>[!note] 
 ¿Qué es OSPF?
 >**OSPF (Open Shortest Path First)** es un protocolo de enrutamiento **interior (IGP)** que se utiliza dentro de un mismo sistema autónomo (AS). Utiliza el algoritmo de Dijkstra (estado de enlace) para calcular la ruta más corta a cada destino en la red. Es dinámico, converge rápidamente y soporta jerarquías mediante áreas para optimizar el rendimiento y reducir la sobrecarga.
 
@@ -928,7 +928,7 @@ Conceptos para entender los comandos:
 >
 >Cada comando `network` le dice a OSPF **qué redes están directamente conectadas** al router y **deberían ser incluidas en el enrutamiento OSPF**.
 
->[!info] Topología actual para la prueba:
+>[!note] Topología actual para la prueba:
 ![82](IMG/Pasted%20image%2020250515134936.png)
 
 ### <u>VyOS</u>
@@ -1007,7 +1007,7 @@ Seguidamente nos vamos a Interface Templates > +
 >[!warning]
 >Si no ponemos el `redistribute connected` en Mikrotik, tendremos que poner las interfaces que queremos anunciar, pero **ojo**, no en todas hay que poner la autenticación, solo en la que distribuye las rutas, en nuestro caso **eth1 (eth0)**.
 
->[!info] 
+>[!note] 
 ¿Por qué no `redistribute static`?
 >`reditribute static` tiene un significado diferente en Mikrotik. Mientras que `static` son las rutas agregadas manualmente (en IP → Routes), `connected` son las redes directamente conectadas a interfaces activas (eth2, eth3, etc...).
 
@@ -1345,7 +1345,7 @@ save
 - **Clave pública**: Es necesaria para configurar el par en el servidor, como vimos anteriormente en los comandos, la tuvimos que pegar.
 - **Direcciones**: Le ponemos la IP que tenga dentro de la subred que creamos junto al /32.
 
->[!info] 
+>[!note] 
 #### ¿Por qué `/32` es mejor?✅
 >
 >- Define que el cliente solo tiene una IP: `10.0.0.2`.
