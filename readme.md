@@ -117,7 +117,7 @@ Observamos que tiene la IP 192.168.1.50, intentamos conectarnos por SSH.
 > [!CAUTION] 
 Nos deniega la conexión, ahora vamos a activarlo.
 
-![[Pasted image 20250422094242.png]]
+![9](IMG/Pasted%20image%2020250422094242.png)
 Estando en modo configuración, escribimos el comando:
 ```python
 set service ssh
@@ -126,22 +126,23 @@ save
 ```
 
 Guardamos y aplicamos cambios, volvemos a probar SSH.
-![[Pasted image 20250422094346.png]]
-> [!success] Vemos que ya tenemos acceso.
+![10](IMG/Pasted%20image%2020250422094346.png)
+> [!tip] 
+Vemos que ya tenemos acceso.
 
 ---
 ## <u>Mikrotik</u>
 
 Una vez que hemos iniciado la máquina virtual, abrimos la aplicación Winbox de Mikrotik, nos vamos al apartado **Neighbors** y seleccionamos nuestro router.
-![[Pasted image 20250422094644.png]]
+![11](IMG/Pasted%20image%2020250422094644.png)
 Lo podemos identificar por la MAC.
-![[Pasted image 20250422094714.png]]
+![12](IMG/Pasted%20image%2020250422094714.png)
 
 Por defecto, para entrar a un router Mikrotik, el usuario es admin y la contraseña en blanco, ya que después de entrar te pide cambiar la contraseña.
-![[Pasted image 20250422094802.png]]
+![13](IMG/Pasted%20image%2020250422094802.png)
 
 Ahora intentamos acceder por SSH a nuestro router Mikrotik, normalmente, viene activado y no hace falta ninguna configuración adicional.
-![[Pasted image 20250422094944.png]]
+![14](IMG/Pasted%20image%2020250422094944.png)
 > [!warning]
 > SSH en Mikrotik se va a usar poco o nada ya que con la aplicación Winbox lo puedes hacer todo de manera gráfica.
 
@@ -166,7 +167,7 @@ commit
 save
 ```
 
-![[Pasted image 20250422103245.png]]
+![15](IMG/Pasted%20image%2020250422103245.png)
 
 Y eliminamos la configuración DHCP
 ```python
@@ -175,43 +176,43 @@ commit
 save
 ```
 
-![[Pasted image 20250422103523.png]]
-![[Pasted image 20250422103608.png]]
+![16](IMG/Pasted%20image%2020250422103523.png)
+![17](IMG/Pasted%20image%2020250422103608.png)
 Ya no pone DHCP como antes:
-![[Pasted image 20250422103645.png]]
+![18](IMG/Pasted%20image%2020250422103645.png)
 
 ### <u>Mikrotik</u>
 
 Vamos a IP > Addresses.
-![[Pasted image 20250422111656.png]]
+![19](IMG/Pasted%20image%2020250422111656.png)
 Podemos ver que a la izquierda tiene una D que significa dinámico, vamos a ponerlo estático.
 
 Primero lo que hacemos es añadir IP a otra interfaz (por si acaso perdemos acceso) y eliminar la IP de ether1 dándole al "-" rojo. Una vez hecho eso nos sacará del router, normalmente se puede acceder por MAC:
-![[Pasted image 20250422112150.png]]
+![20](IMG/Pasted%20image%2020250422112150.png)
 Como podemos ver arriba donde pone "Session" está la MAC de la máquina virtual. También está la IP de la interfaz que hemos configurado por si perdíamos acceso, pues ahora cambiamos la IP y la interfaz para que sea la ether1 (que es la que sale a internet y puede actuar como puente).
 
 Le damos doble click y completamos la configuración, importante poner la máscara de red para que se autorrellene el campo de Network.
-![[Pasted image 20250422125852.png]]
+![21](IMG/Pasted%20image%2020250422125852.png)
 Le damos a "Apply" y "Ok".
 
-![[Pasted image 20250422112304.png]]
+![22](IMG/Pasted%20image%2020250422112304.png)
 Ya tenemos la IP estática.
-
-<div class="page-break" style="page-break-before: always;"></div>
 
 ## 6.2 VLANs
 
-> [!question]- ¿Qué son las VLAN?
+> [!note]
+¿Qué son las VLAN?
+
 > Las VLAN (Redes de Área Local Virtuales) son una forma de dividir una red física en varias redes lógicas independientes. Esto significa que, aunque todos los dispositivos estén conectados al mismo switch/router físico, pueden agruparse como si estuvieran en redes separadas, lo que mejora la seguridad, el rendimiento y la organización.
 
 Estas configuraciones las vamos a hacer de 2 maneras diferentes para que se vea las distintas configuraciones. En una de ellas (la 1ª) hay un problema, normalmente, los equipos no etiquetan las VLANs por defecto, por lo que si conectamos directamente el equipo al router, no va a saber a que VLAN tirar, por lo que la conexión se queda directamente en la interfaz, pero hay algunos trucos para sortear ese problema, lo veremos más tarde.
 ### <u>VyOS</u>
 
 #### <u>1er método</u>
-![[Pasted image 20250424141016.png|600]]
+![23](IMG/Pasted%20image%2020250424141016.png|600)
 <div class="page-break" style="page-break-before: always;"></div>
 
-![[Pasted image 20250424141303.png]]
+![24](Pasted%20image%2020250424141303.png)
 
 
 ```python
@@ -240,7 +241,7 @@ save # Guardamos
   Si creamos una **VLAN** en la interfaz eth1, por ejemplo, la VLAN10 y en `vif` le decimos 10, crearía como una **subinterfaz** dentro de eth1 que se llamaría eth1.10.
 
 #### <u>Permitir salida a internet</u>
-![[Pasted image 20250424143923.png]]
+![25](Pasted%20image%2020250424143923.png)
 ```python
 config
 
@@ -256,10 +257,11 @@ save
 
 ```
 
->[!question]- **¿Qué necesitamos hacer ahora en Proxmox?**
+>[!note] 
+**¿Qué necesitamos hacer ahora en Proxmox?**
 >Tenemos que ir a las opciones de Network en nuestro contenedor de Proxmox y en VLAN Tag, decirle el ID de la VLAN que creamos anteriormente, que era el número 10.
 
->[!question]- **¿Por qué lo hemos hecho en Proxmox?**
+>[!note]- **¿Por qué lo hemos hecho en Proxmox?**
 >Para que un dispositivo final —en este caso, nuestro Debian— sepa a qué VLAN pertenece su tráfico, es necesario **"etiquetar" (taggear)** dicho tráfico. Esto significa que, dependiendo del **puerto del switch al que esté conectado**, el switch puede **añadir una etiqueta VLAN** (por ejemplo, VLAN 10) al tráfico que proviene del dispositivo.
 >
 Por ejemplo:  
@@ -274,11 +276,12 @@ También es importante saber que **VyOS puede etiquetar tráfico (taggear VLANs)
 En este primer caso **no se está etiquetando el tráfico** porque estamos usando **VLANs directamente sobre interfaces físicas**, lo que implica que VyOS espera **tráfico ya etiquetado** desde el exterior. Es decir, VyOS no está aplicando etiquetas, solo las entiende y enruta.
 
 
-![[Pasted image 20250424144347.png]]
+![26](IMG/Pasted%20image%2020250424144347.png)
 
-![[Pasted image 20250424144230.png]]
-![[Pasted image 20250427170351.png]]
-> [!success] Como podemos ver, el cliente recibe IP y sale a internet
+![27](IMG/Pasted%20image%2020250424144230.png)
+![28](IMG/Pasted%20image%2020250427170351.png)
+> [!tip] 
+Como podemos ver, el cliente recibe IP y sale a internet
 
 ### <u>Mikrotik</u>
 
@@ -287,45 +290,48 @@ La creación y configuración de VLANs en Mikrotik es relativamente sencillo al 
 Este método consiste en simplemente, aplicar las VLANs directamente en las interfaces en vez de crear un puente y meter todas ahí, que es lo que haremos en el 2º método.
 
 Nos vamos a la interfaz, le damos click derecho>Add>VLAN.
-![[Pasted image 20250424133921.png]]
+![29](IMG/Pasted%20image%2020250424133921.png)
 
 Aquí simplemente rellenamos la información necesaria, Name, VLAN ID e Interface. Le damos a Apply y a Ok.
-![[Pasted image 20250424134117.png]]
+![30](IMG/Pasted%20image%2020250424134117.png)
 
 Ahora, nos vamos a IP > Addresses y le asignamos IP a VLAN40.
-![[Pasted image 20250424134329.png]]
-![[Pasted image 20250424134451.png]]
+![31](IMG/Pasted%20image%2020250424134329.png)
+![32](IMG/Pasted%20image%2020250424134451.png)
 
 Ahora creamos el servidor DHCP.
 Le damos a DHCP Setup para una fácil creación.
-![[Pasted image 20250424134559.png]]![[Pasted image 20250424134622.png]]
-![[Pasted image 20250424134634.png]]
-![[Pasted image 20250424134653.png]]
-![[Pasted image 20250424134703.png]]
-![[Pasted image 20250424134711.png]]
-![[Pasted image 20250424134720.png]]
+![33](IMG/Pasted%20image%2020250424134559.png)
+![34](IMG/Pasted%20image%2020250424134622.png)
+![35](IMG/Pasted%20image%2020250424134634.png)
+![36](IMG/Pasted%20image%2020250424134653.png)
+![37](IMG/Pasted%20image%2020250424134703.png)
+![38](IMG/Pasted%20image%2020250424134711.png)
+![39](IMG/Pasted%20image%2020250424134720.png)
 
 #### <u>Permitir salida a internet</u>
 Para permitir la salida a internet en estos casos, hay que aplicar NAT:
 
 Nos vamos a IP>Firewall>NAT>+
-![[Pasted image 20250424142243.png]]
+![40](IMG/Pasted%20image%2020250424142243.png)
 Rellenamos los campos necesarios:
 * **Chain:** Ponemos srcnat.
 * **Src. Address:** Ponemos 0.0.0.0/0 para que entre todo.
 * **Out.Interface:** Ponemos ether1 porque es la WAN.
 
 Ahora en action ponemos masquerade.
-![[Pasted image 20250424142614.png]]
+![41](IMG/Pasted%20image%2020250424142614.png)
 
 > Así podrá salir a internet.
 
 Ahora viene la parte "complicada" de este método, que el equipo sepa ir a la VLAN y el servidor DHCP le asigne IP.
 
->[!note]- **¿Qué he tenido que hacer?** 
+>[!note]
+**¿Qué he tenido que hacer?** 
 >Para poder decirle a la tarjeta de red a que VLAN ir, he tenido que instalar un driver llamado [Intel® Ethernet Adapter Complete Driver Pack](https://www.intel.com/content/www/us/en/download/15084/intel-ethernet-adapter-complete-driver-pack.html) el cual tiene un software que te permite asignar la VLAN. Una vez instalado, abrimos el programa como administrador y nos vamos a Equipos/VLAN. Hay una pestaña llamada VLAN dentro, le damos a Nueva y ponemos el VLAN ID asignado anteriormente a la VLAN.
 
->[!note] **¿Por qué lo he tenido que hacer?**
+>[!note] 
+**¿Por qué lo he tenido que hacer?**
 >Esto es lo mismo que expliqué anteriormente en el apartado de VyOS, el dispositivo final por si solo no sabe a que VLAN ir, y como no tenemos un switch gestionable de por medio, usamos un software.
 >
 >Este software permite que le digamos a la tarjeta de red que ID de VLAN es la que nos pertenece, y es por exactamente lo mismo, una VLAN sobre una interfaz física no puede taggear automáticamente el tráfico.
@@ -333,7 +339,7 @@ Ahora viene la parte "complicada" de este método, que el equipo sepa ir a la VL
 ![[1.png]]
 ![[1.2.png]]
 ![[2.png]]
-![[Pasted image 20250424135643.png]]
+![42](IMG/Pasted%20image%2020250424135643.png)
 Y eso sería toda la configuración de una VLAN directamente sobre una interfaz.
 
 #### <u>2º Método</u>
@@ -353,7 +359,7 @@ No he conseguido reproducir este mismo ejemplo exactamente como en Mikrotik en *
 | **Control de aislamiento y errores**      | Menos control, riesgo de mezcla | Más preciso, mejor aislamiento       |
 ### <u>VyOS</u>
 
-![[Pasted image 20250509134945.png]]
+![42.1](IMG/Pasted%20image%2020250509134945.png)
 Comprobamos que no tenemos ninguna interfaz extra ya que podría dar fallo.
 
 Ahora, nos metemos en modo configuración e insertamos todos los comandos siguientes:
@@ -411,18 +417,20 @@ commit
 save
 ```
 
->[!question]- ¿Qué es un puerto en modo access?
+>[!note]
+¿Qué es un puerto en modo access?
 >Un **puerto en modo access** es un puerto configurado para conectarse a una sola VLAN y no usa etiquetas especiales en los paquetes. Esto significa que todo el tráfico que entra o sale por ese puerto pertenece siempre a esa VLAN específica, sin que los dispositivos conectados tengan que saber nada sobre VLANs. Es el modo ideal para ordenadores, impresoras u otros dispositivos comunes que no entienden de redes VLAN.
 
-![[Pasted image 20250509135154.png]]
+![43](IMG/Pasted%20image%2020250509135154.png)
 Una vez insertada la pila de comandos y habiendo hecho commit y save para que se guarden los cambios, volvemos atrás para observar si todo se ha creado correctamente. Vemos que tenemos 3 VLANs que se han creado en el puente y que a través de los comandos anteriores, hemos asociado a cada puerto físico.
 
-![[Pasted image 20250509135341.png]]
+![44](IMG/Pasted%20image%2020250509135341.png)
 Si ponemos el comando ```show bridge br0``` vemos las interfaces añadidas al bridge.
 
-> [!success] Y en la imagen de abajo vemos que la máquina virtual, al solicitar IP, ya que está conectada a la red interna llamada **interna1**, recibirá la IP de la red **192.168.10.0/24**.
+> [!tip] 
+Y en la imagen de abajo vemos que la máquina virtual, al solicitar IP, ya que está conectada a la red interna llamada **interna1**, recibirá la IP de la red **192.168.10.0/24**.
 
-![[Pasted image 20250509140131.png]]
+![45](IMG/Pasted%20image%2020250509140131.png)
 
 >[!note]
 A diferencia del método anterior, este enfoque **no requiere configurar manualmente en el dispositivo final a qué VLAN pertenece**. En su lugar, el sistema **determina automáticamente la VLAN** en función del **puerto físico al que se conecta**, como se indica en el siguiente comando:
@@ -438,10 +446,10 @@ El mismo concepto se aplica en Mikrotik, aunque la implementación sea diferente
 
 ### <u>Mikrotik</u>
 
-![[Pasted image 20250509142622.png]]
+![46](IMG/Pasted%20image%2020250509142622.png)
 Lo primero que vamos a hacer en Mikrotik va a ser ir a Interfaces > + > Bridge.
 
-![[Pasted image 20250509142719.png]]
+![47](Pasted%20image%2020250509142719.png)
 Vamos a llamarle simplemente "bridge1"
 
 Ahora nos vamos al apartado **VLAN** y activamos VLAN Filtering
@@ -454,25 +462,25 @@ Ahora le damos a Apply y a OK.
 >Es decir, si no activamos **VLAN Filtering**, Mikrotik actúa como si fuera un simple switch, no segmentaría ni separaría las distintas VLAN y mezclaría todo el tráfico.
 
 Ahora, en el mismo apartado de Interface, buscamos la categoría VLAN y le damos al + para crearla.
-![[Pasted image 20250509142952.png]]
+![48](Pasted%20image%2020250509142952.png)
 Teniendo en cuenta lo que está en azul, cambiamos el nombre de la VLAN para que sea VLAN10, el VLAN ID también lo cambiamos al número que queramos, en mi caso 10, y cambiamos Interface a el bridge que hemos creado antes. Le damos a Apply y a Ok.
 
 Ahora, en la barra de la izquierda, nos vamos hacia Bridge > Ports > +
-![[Pasted image 20250509143228.png]]
+![49](IMG/Pasted%20image%2020250509143228.png)
 Insertamos la interfaz física que queramos asignar a la VLAN 10 al bridge creado anteriormente y después nos vamos a la pestaña VLAN.
 
-![[Pasted image 20250509143304.png]]
+![50](IMG/Pasted%20image%2020250509143304.png)
 Aquí simplemente, en PVID, insertamos la VLAN ID que le pusimos anteriormente a la VLAN.
 
-![[Pasted image 20250509144229.png]]
+![51](IMG/Pasted%20image%2020250509144229.png)
 Ahora, vamos a IP > Addresses > + y le asignamos IP a la VLAN.
 
-![[Pasted image 20250509144322.png]]
+![52](IMG/Pasted%20image%2020250509144322.png)
 Seguidamente, como vimos anteriormente, creamos el servidor DHCP para esa VLAN.
 
-![[Captura 1.png]]
+![53](IMG/Captura%201.png)
 Ahora renovamos IP en el equipo cliente que está conectado **directamente** por cable al router Mikrotik en el puerto ethernet1 y vemos que nos da perfectamente una IP.
-![[Pasted image 20250509144631.png]]
+![54](IMG/Pasted%20image%2020250509144631.png)
 En Mikrotik, en DHCP Server > Leases, también vemos perfectamente que se le ha asignado al equipo.
 
 ---
@@ -482,14 +490,15 @@ Aunque no son avanzadas como tal, sí que son un poco más complejas y completas
 
 ## Firewall
 
->[!question]- ¿Qué es un Firewall?
+>[!note]
+¿Qué es un Firewall?
 > Un firewall en un router es una herramienta de seguridad que controla qué datos pueden entrar o salir de la red, bloqueando accesos no autorizados y permitiendo solo el tráfico confiable según las  reglas definidas.
 
 ### <u>VyOS</u>
 
 Vamos a hacer algo fácil primero, vamos a permitir el tráfico de FTP y SSH pero vamos a bloquear el acceso por Telnet.
 
-![[Pasted image 20250427172730.png]]
+![56](IMG/Pasted%20image%2020250427172730.png)
 ```python
 set firewall ipv4 name WAN default-action drop # Por defecto, a menos que se diga lo contrario, todo se dropea, es decir, no pasa el tráfico
 
@@ -506,7 +515,7 @@ commit
 save
 ```
 
-![[Pasted image 20250428081846.png]]
+![57](IMG/Pasted%20image%2020250428081846.png)
 
 ```python
 set firewall ipv4 name WAN rule 30 action drop
@@ -530,41 +539,45 @@ set firewall ipv4 name WAN rule 30 inbound-interface name eth0
 
 Vamos a comprobarlo, desde un contenedor Debian 12 voy a intentar conectarme por SSH y Telnet.
 
-![[Pasted image 20250427174959.png]]
-> [!success] Como podemos observar, me deja perfectamente, vamos ahora con Telnet.
+![58](IMG/Pasted%20image%2020250427174959.png)
+> [!tip] 
+Como podemos observar, me deja perfectamente, vamos ahora con Telnet.
 
-![[Pasted image 20250427174009.png]]
-> [!success] Perfecto, lo rechaza.
+![59](IMG/Pasted%20image%2020250427174009.png)
+> [!tip] 
+Perfecto, lo rechaza.
 
 ### <u>Mikrotik</u>
 
 Para hacerlo en Mikrotik es más sencillo, nos vamos a IP > Firewall > Filter Rules > +.
 
-![[Pasted image 20250428083333.png]]
+![60](IMG/Pasted%20image%2020250428083333.png)
 * **Chain: input.** En este caso es Input porque el tráfico termina en el router.
 * **Protocol: 6 (tcp).** Protocolo TCP.
 * **In. Interface: ether1.** La interfaz por la que va a venir el tráfico es la ether1.
 ![[Pasted image 20250428083729.png]]
 * **Action:** accept. Aceptamos ese tráfico.
 
-![[Pasted image 20250428083614.png]]
+![61](IMG/Pasted%20image%2020250428083614.png)
 
-> [!success] Podemos acceder, ahora probamos a deshabilitarla.
+> [!] Podemos acceder, ahora probamos a deshabilitarla.
 
-![[Pasted image 20250428083658.png]]
-![[Pasted image 20250428083908.png]]
-> [!success] Vemos que se queda pensando y no entramos.
+![62](IMG/Pasted%20image%2020250428083658.png)
+![63](IMG/Pasted%20image%2020250428083908.png)
+> [!tip] 
+Vemos que se queda pensando y no entramos.
 
 Ahora seguimos casi el mismo procedimiento para Telnet, cambiamos el puerto por el 23 y en Action ponemos drop.
-![[Pasted image 20250428085011.png]]
-![[Pasted image 20250428085026.png]]
+![64](IMG/Pasted%20image%2020250428085011.png)
+![65](IMG/Pasted%20image%2020250428085026.png)
 
 ![[Pasted image 20250428085340.png]]
 Y así quedaría nuestra tabla de reglas, la primera es para poder conectarme desde Winbox (Interfaz gráfica) y la última para hacer drop de todo lo que no esté permitido. Podríamos directamente no haber creado la regla, pero por el ejemplo la he hecho. Lo mismo en el caso de VyOS, si se bloquea todo menos lo que se permita, no hace falta crear un bloqueo.
 
 ## NAT
 
->[!question]- ¿A que nos referimos con NAT?
+>[!note]
+¿A que nos referimos con NAT?
 >El NAT (Traducción de Direcciones de Red) en un router permite que varios dispositivos en una red local compartan una sola dirección IP pública para acceder a Internet.
 >
 >Cuando digo NAT, me refiero principalmente a lo que es redirección de puertos, aunque no es lo único que se puede hacer en este apartado, como hemos visto antes, el enmascaramiento de IPs también se hace en este apartado.
@@ -572,12 +585,13 @@ Y así quedaría nuestra tabla de reglas, la primera es para poder conectarme de
 He creado un servidor apache2 en un equipo con la IP 192.168.10.101, que se encuentra en una VLAN, vamos a hacer que cualquiera que intente ir a http://192.168.1.44 vaya a http://192.168.10.101.
 ### <u>VyOS</u>
 
-![[Pasted image 20250428115223.png]]
-> [!failure] Si intentamos hacer un wget, nos rechaza la conexión.
+![66](IMG/Pasted%20image%2020250428115223.png)
+> [!caution] 
+Si intentamos hacer un wget, nos rechaza la conexión.
 
 Vamos a escribir los siguientes comandos:
-![[Pasted image 20250428115829.png]]
->[!info]-
+![67](IMG/Pasted%20image%2020250428115829.png)
+>[!note]
 >Ignoramos ese error que me aparece, se debe a una configuración de prueba anterior, funciona igualmente.
 
 ```python
@@ -600,31 +614,33 @@ save
 show nat destination rules
 ```
 
-![[Pasted image 20250428120012.png]]
-![[Pasted image 20250428115102.png]]
-> [!success] Donde vemos que antes rechazaba la conexión, ahora recoge el index.html.
+![67.1](Pasted%20image%2020250428120012.png)
+![67.2](Pasted%20image%2020250428115102.png)
+> [!tip] 
+Donde vemos que antes rechazaba la conexión, ahora recoge el index.html.
 
 ### <u>Mikrotik</u>
 
 En Mikrotik es bastante más fácil:
 
 Nos vamos a IP > Firewall > Firewall Rules > +
-![[Pasted image 20250429085254.png]]
-![[Pasted image 20250429085359.png]]
-![[Pasted image 20250429085413.png]]
+![68](IMG/Pasted%20image%2020250429085254.png)  
+![69](IMG/Pasted%20image%2020250429085359.png)  
+![70](IMG/Pasted%20image%2020250429085413.png)  
 Creamos una regla Forward ya que lo vamos a redirigir a un equipo que no es el router (si no, sería input). En Action ponemos Accept para que acepte la conexión.
 
-![[Captura 1.png]]
+![71](IMG/Captura%201.png)
 En el otro equipo con IP 192.168.20.253 tiene un XAMPP con Apache en los puertos 90 para HTTP y 500 para HTTPS.
 
-![[Pasted image 20250429090721.png]]
+![72](IMG/Pasted%20image%2020250429090721.png)
 Luego, en IP > Firewall > NAT agregamos una nueva regla que diga que todo el tráfico que le llegue al puerto 80, se le redirija al 90.
 
-![[Pasted image 20250429090311.png]]
+![73](IMG/Pasted%20image%2020250429090311.png)
 El Action en este caso es dst-nat. Apuntamos hacia la IP que contiene el Apache y el puerto por el que corre.
 
-![[Pasted image 20250430082251.png]]
-> [!success] Intentamos acceder desde el navegador y funciona correctamente.
+![74](IMG/Pasted%20image%2020250430082251.png)
+> [!tip] 
+Intentamos acceder desde el navegador y funciona correctamente.
 ### **Resumen de las 4 cadenas de NAT de MikroTik:**
 
 1. **`srcnat`**: Se usa para modificar la **dirección IP de origen** de los paquetes que salen de la red (usualmente para enmascaramiento).
@@ -638,14 +654,16 @@ El Action en este caso es dst-nat. Apuntamos hacia la IP que contiene el Apache 
 
 ## Enrutamiento BGP
 
->[!question]- ¿Qué es el Enrutamiento BGP?
+>[!note]
+¿Qué es el Enrutamiento BGP?
 >El enrutamiento **BGP (Border Gateway Protocol)** sirve para intercambiar información de rutas entre redes grandes o sistemas autónomos en Internet, permitiendo que los datos encuentren el camino más eficiente y confiable. Se usa comúnmente para conectar una red a varios proveedores de Internet (multihoming), controlar cómo entra y sale el tráfico de una red, y asegurar redundancia y alta disponibilidad en infraestructuras como centros de datos o redes empresariales.
 
 **BGP no suele usarse en redes pequeñas**. Aunque en este caso sí lo vamos a usar para motivos didácticos.
 
 Está diseñado para redes **grandes y complejas**, como las de proveedores de servicios de Internet (ISP), empresas con múltiples sedes globales o centros de datos. Esto se debe a que BGP es **más complejo de configurar y administrar**, y requiere coordinación con otros sistemas autónomos (por ejemplo, acuerdos con ISP).
 
->[!note]  Entorno de prueba
+>[!note]  
+Entorno de prueba
 >
 >- Mikrotik con redes en interfaces **eth2 y eth3**:
 >	- 192.168.10.0/24
@@ -659,10 +677,10 @@ Está diseñado para redes **grandes y complejas**, como las de proveedores de s
 ### <u>VyOS</u>
  
 Aquí muestro las interfaces:
-![[Pasted image 20250512215437.png]]
+![75](Pasted%20image%2020250512215437.png)
 
 Ponemos estos comandos:
-![[Pasted image 20250512220618.png]]
+![76](Pasted%20image%2020250512220618.png)
 
 ```python
 set protocols bgp system-as 65001 # Decimos que nuestro AS (Autonomous System) es el número 65001
@@ -679,7 +697,8 @@ commit
 save
 ```
 
->[!question] ¿Qué significa ipv4-unicast?
+>[!note] 
+¿Qué significa ipv4-unicast?
 >BGP puede intercambiar diferentes **tipos de rutas**, conocidas como _address families_. Las dos más comunes son:
 >
 >- `ipv4-unicast`: para rutas IP normales que identifican **un único destino** (una máquina, una red, etc.).
@@ -691,20 +710,23 @@ save
 ### <u>Mikrotik</u>
 
 Primero le asignamos las direcciones IP a las interfaces en IP > Addresses
-![[Pasted image 20250512221402.png]]
+Ahora, para compartir las redes nos vamos a **IP > Firewall > Address Lists > +** y creamos una nueva.  
+En `List` ponemos el nombre que queramos, en mi caso, **nueva**.  
+En `Address` ponemos la red que queremos anunciar (compartir), en mi caso, la `192.168.10.0/24` y la `192.168.30.0/24`.  
+![77](IMG/Pasted%20image%2020250512221402.png)  
+![78](IMG/Pasted%20image%2020250512221457.png)
 
-Ahora, para compartir las redes nos vamos a IP > Firewall > Address Lists > + y creamos una nueva. En `List` ponemos el nombre que queramos, en mi caso, **nueva**. En `Address` ponemos la red que queremos anunciar (compartir), en mi caso, la 192.168.10.0/24 y la 192.168.30.0/24.
-![[Pasted image 20250512221457.png]]
+Tendría que quedar algo así:  
+![79](IMG/Pasted%20image%2020250512221625.png)
 
-Tendría que quedar algo así:
-![[Pasted image 20250512221625.png]]
->[!tip]
->Lo que hacemos es añadir todas las redes que queramos compartir a la misma lista.
+> [!tip]  
+> Lo que hacemos es añadir todas las redes que queramos compartir a la misma lista.
 
-Ahora nos iríamos a Routing > BGP > Connection > +
+Ahora nos iríamos a **Routing > BGP > Connection > +**
 
-Y rellenamos los campos necesarios:
-![[Pasted image 20250512221921.png]]
+Y rellenamos los campos necesarios:  
+![80](IMG/Pasted%20image%2020250512221921.png)
+
 * **Name:** Le ponemos el nombre que queramos, lo dejo por defecto.
 * **AS:** Este es el número de nuestro AS, tiene que ser el mismo que hemos puesto a la hora de configurar el vecino en VyOS.
 * **Router ID:** Es un identificador único de nuestro router, si no ponemos nada, automáticamente se asigna la IP más alta que tengamos en cualquiera de nuestras interfaces.
