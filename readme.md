@@ -69,18 +69,22 @@ A continuación, escribimos el siguiente comando:
 install image
 ```
 
-![[Pasted image 20250422085316.png]]
-![[Pasted image 20250422085424.png]]
-![[Pasted image 20250422085503.png]]
-![[Pasted image 20250422085530.png]]Nos hace varias preguntas como que contraseña queremos para el usuario vyos, que tipo de consola queremos usar, en que disco duro, etc...
+![1](IMG/Pasted%20image%2020250422085316.png)
+![2](IMG/Pasted%20image%2020250422085424.png)
+![3](IMG/Pasted%20image%2020250422085503.png)
+![4](IMG/Pasted%20image%2020250422085530.png)
 
-![[Pasted image 20250422085633.png]]
+Nos hace varias preguntas como que contraseña queremos para el usuario vyos, que tipo de consola queremos usar, en que disco duro, etc...
+
+![5](IMG/Pasted%20image%2020250422085633.png)
+
 Una vez instalado, escribimos ```reboot``` y reiniciamos.
 ## <u>RouterOS (Mikrotik)</u>
 
 Este es más sencillo, pues es solo una OVA que se puede descargar en su [página web](https://mikrotik.com/download) que tiene abajo un apartado llamado "Cloud Hosted Router".
 
-![[Pasted image 20250422091109.png]]
+![6](IMG/Pasted%20image%2020250422091109.png)
+
 Simplemente editamos los campos que queramos y le damos a "Terminar".
 
 ### 4.1 ¿Cuál me parece más cómodo de instalar?
@@ -104,11 +108,11 @@ save
 Primero tenemos que entrar en modo configuración y luego decirle a la interfaz eth0 que obtenga IP por DHCP. Después ponemos **commit** y **save**
 para aplicar los cambios y vemos si ha obtenido IP.
 
-![[Pasted image 20250422093139.png]]
+![7](IMG/Pasted%20image%2020250422093139.png)
 
 Observamos que tiene la IP 192.168.1.50, intentamos conectarnos por SSH.
 ![[Pasted image 20250422094144.png]]
-> [!failure] Nos deniega la conexión, ahora vamos a activarlo.
+> [!CAUTION] Nos deniega la conexión, ahora vamos a activarlo.
 
 ![[Pasted image 20250422094242.png]]
 Estando en modo configuración, escribimos el comando:
