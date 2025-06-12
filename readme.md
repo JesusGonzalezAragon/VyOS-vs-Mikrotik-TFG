@@ -669,8 +669,8 @@ save
 show nat destination rules
 ```
 
-![67.1](Pasted%20image%2020250428120012.png)
-![67.2](Pasted%20image%2020250428115102.png)
+![67.1](IMG/Pasted%20image%2020250428120012.png)
+![67.2](IMG/Pasted%20image%2020250428115102.png)
 
 > [!tip] 
 Donde vemos que antes rechazaba la conexión, ahora recoge el index.html.
