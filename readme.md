@@ -111,8 +111,11 @@ para aplicar los cambios y vemos si ha obtenido IP.
 ![7](IMG/Pasted%20image%2020250422093139.png)
 
 Observamos que tiene la IP 192.168.1.50, intentamos conectarnos por SSH.
-![[Pasted image 20250422094144.png]]
-> [!CAUTION] Nos deniega la conexión, ahora vamos a activarlo.
+
+![8](IMG/Pasted%20image%2020250422094144.png)
+
+> [!CAUTION] 
+Nos deniega la conexión, ahora vamos a activarlo.
 
 ![[Pasted image 20250422094242.png]]
 Estando en modo configuración, escribimos el comando:
