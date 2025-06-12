@@ -1347,11 +1347,8 @@ save
 
 >[!note] 
 ¿Por qué `/32` es mejor?✅
-
 - Define que el cliente solo tiene una IP: `10.0.0.2`.
-
 - No asume que hay una red local de tipo `10.0.0.0/24`, por lo tanto **no intentará hablar con otros pares** ni aceptará tráfico destinado a ellos.
-   
 - Es más seguro y evita confusiones de ruteo.
 
 ![116](IMG/Pasted%20image%2020250612203101.png)
