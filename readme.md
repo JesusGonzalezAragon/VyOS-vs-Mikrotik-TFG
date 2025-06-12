@@ -259,7 +259,7 @@ save # Guardamos
 
 #### <u>Permitir salida a internet</u>
 
-![25](Pasted%20image%2020250424143923.png)
+![25](IMG/Pasted%20image%2020250424143923.png)
 
 ```python
 config
