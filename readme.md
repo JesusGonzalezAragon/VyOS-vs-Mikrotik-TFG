@@ -280,7 +280,8 @@ save
 **¿Qué necesitamos hacer ahora en Proxmox?**
 >Tenemos que ir a las opciones de Network en nuestro contenedor de Proxmox y en VLAN Tag, decirle el ID de la VLAN que creamos anteriormente, que era el número 10.
 
->[!note]- **¿Por qué lo hemos hecho en Proxmox?**
+>[!note]
+**¿Por qué lo hemos hecho en Proxmox?**
 >Para que un dispositivo final —en este caso, nuestro Debian— sepa a qué VLAN pertenece su tráfico, es necesario **"etiquetar" (taggear)** dicho tráfico. Esto significa que, dependiendo del **puerto del switch al que esté conectado**, el switch puede **añadir una etiqueta VLAN** (por ejemplo, VLAN 10) al tráfico que proviene del dispositivo.
 >
 Por ejemplo:  
@@ -363,9 +364,9 @@ Ahora viene la parte "complicada" de este método, que el equipo sepa ir a la VL
 >
 >Este software permite que le digamos a la tarjeta de red que ID de VLAN es la que nos pertenece, y es por exactamente lo mismo, una VLAN sobre una interfaz física no puede taggear automáticamente el tráfico.
 
-![[1.png]]
-![[1.2.png]]
-![[2.png]]
+![41.1](IMG/1.png)
+![41.2](IMG/1.2.png)
+![41.3](IMG/2.png)
 ![42](IMG/Pasted%20image%2020250424135643.png)
 
 Y eso sería toda la configuración de una VLAN directamente sobre una interfaz.
