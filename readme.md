@@ -253,9 +253,9 @@ save # Guardamos
 ```
 
 >[!note]
-> En VyOS, las VLANs son vistas de la siguiente manera:
->
-  Si creamos una **VLAN** en la interfaz eth1, por ejemplo, la VLAN10 y en `vif` le decimos 10, crearía como una **subinterfaz** dentro de eth1 que se llamaría eth1.10.
+En VyOS, las VLANs son vistas de la siguiente manera:
+
+Si creamos una **VLAN** en la interfaz eth1, por ejemplo, la VLAN10 y en `vif` le decimos 10, crearía como una **subinterfaz** dentro de eth1 que se llamaría eth1.10.
 
 #### <u>Permitir salida a internet</u>
 
