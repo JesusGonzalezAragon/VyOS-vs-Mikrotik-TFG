@@ -1334,25 +1334,27 @@ commit
 save
 ```
 
-![114](IMG/Pasted%20image%2020250516221946.png)
+![114](IMG/Pasted%20image%2020250612203026.png)
 
 #### Configuración en el móvil
-![115]Pa/ed ima%20e 202%200516230756.png)
+
+![115](IMG/Pasted%20image%2020250612203046.png)
+
 - **Nombre**: Le puedes poner el nombre que quieras, en mi caso VyOS.
 - **Clave privada**: Se genera automáticamente.
 - **Clave pública**: Es necesaria para configurar el par en el servidor, como vimos anteriormente en los comandos, la tuvimos que pegar.
 - **Direcciones**: Le ponemos la IP que tenga dentro de la subred que creamos junto al /32.
 
->[!tip] 
+>[!info] 
 #### ¿Por qué `/32` es mejor?✅
 >
 >- Define que el cliente solo tiene una IP: `10.0.0.2`.
-  >  
+
 >- No asume que hay una red local de tipo `10.0.0.0/24`, por lo tanto **no intentará hablar con otros pares** ni aceptará tráfico destinado a ellos.
  >   
 >- Es más seguro y evita confusiones de ruteo.
 
-![116[Pa[](IMG/ed ima%20e 202%200516230442.png|300)
+![116](IMG/Pasted%20image%2020250612203101.png)
 
 - **Clave pública**: Aquí hay que introducir la clave que nos generó uno de los primeros comandos que pusimos.
 - **Endpoint**: Se refiere a la dirección del servidor WireGuard, en mi caso, mi DNS que apunta a la máquina virtual VyOS por el puerto 51820
@@ -1360,11 +1362,11 @@ save
 
 Y ya le podemos dar al disquete para guardar.
 
-![117[Pa[](IMG/ed ima%20e 202%200516231512.png|300)
+![117](IMG/Pasted%20image%2020250612203113.png)
 
 Una vez que la activemos, para saber si realmente está funcionando nuestro túnel, nos fijamos en las estadísticas `rx` y `tx` significando recibido y enviado respectivamente, si el apartado `rx` va aumentado, es un indicio de que está correctamente configurado, de todos modos, vamos a probar a hacer ping directamente el router.
 
-![118](IMG/Pasted%20image%2020250516231725.png)
+![118](IMG/Pasted%20image%2020250612203126.png)
 
 >[!tip] 
 Como podemos observar, le hace ping correctamente.
@@ -1379,7 +1381,7 @@ Ahora vamos a hacerlo en Mikrotik:
 
 Nos vamos a WireGuard > +
 
-![119](IMG/Pasted%20image%2020250516232206.png)
+![119](IMG/Pasted%20image%2020250612195444.png)
 
 - **Name**: El que queramos, lo dejo por defecto.
 - **Listen Port**: Lo mismo, podemos poner el que queramos, pero yo lo dejo por defecto.
@@ -1389,7 +1391,7 @@ Le damos a Apply y a Ok, importante copiar la public key para enviarla a nuestro
 
 Ahora nos vamos a Peer > +
 
-<img src="IMG/Pasted%20image%2020250612195444.png" width="400">
+![120](IMG/Pasted%20image%2020250612195531.png)
 
 - **Name**: Como siempre, el que queramos.
 - **Interface**: wireguard1, la que pone por defecto (En el apartado Interfaces se puede cambiar el nombre si queremos).
@@ -1397,28 +1399,28 @@ Ahora nos vamos a Peer > +
 
 Le damos a Apply y Ok. Ahora, antes de intentar conectarnos, vamos a ir a IP > Addresses y le vamos a asignar una IP a nuestra interfaz Wireguard1.
 
-![121](IMG/Pasted%20image%2020250516233200.png)
+![121](IMG/Pasted%20image%2020250612195550.png)
 
 En mi caso, voy a usar la red 20.0.0.0/24, le damos a Apply y a Ok y nos vamos al móvil.
 
-![122[Pa[](IMG/ed ima%20e 202%200517111847.png|300)
+<img src="IMG/Pasted%20image%2020250612195648.png" width=300>
+
+<img src="IMG/Pasted image 20250612195742.png" width=300>
 
 La configuración es prácticamente la misma a la anterior, lo único que cambia es el puerto del `endpoint`, la ``dirección IP`` que ponemos arriba y la `Clave Pública` del par (servidor).
 
-![123](IMG/Pasted%20image20250517110738.png)
-
-
+<img src="IMG/Pasted image 20250612200957.png" width=300>
 
 >[!tip] 
 Vemos que tanto rx como tx está variando.
 
-![125[Pa[](IMG/ed ima%20e 202%200517112056.png|300)
+<img src="IMG/Pasted image 20250612201411.png" width=300>
 
-Y que tenemos internet sin problemas
+Y que tenemos internet sin problemas.
 
-![126](IMG/Pasted%20image%2020250517112201.png)
+<img src="IMG/Pasted image 20250612201118.png" width=300>
 
->[!tip] Y hacemos Ping sin problema.
+>[!tip] Y hacemos Ping.
 
 >[!warning]
 >Yo no he puesto manualmente los DNS porque no me ha hecho falta, pero es **bastante recomendable** usarlos.
@@ -1427,11 +1429,11 @@ Y que tenemos internet sin problemas
 
 Ahora vamos a ver como se haría, pero en PC.
 
-![127](IMG/Pasted%20image%2020250517113005.png)
+![127](IMG/Pasted%20image%2020250612203145.png)
 
 En la flechita de Añadir túnel seleccionamos "Añadir túnel vacío".
 
-![128](IMG/Pasted%20image%2020250517113245.png)
+![128](IMG/Pasted%20image%2020250612203153.png)
 
 Esa sería básicamente la configuración
 ```python
@@ -1446,15 +1448,15 @@ Endpoint = vpnjesus.zapto.org:13231 # Nuesta dirección junto al puerto
 AllowedIPs = 0.0.0.0/0
 ```
 
-![129](IMG/Pasted%20image%2020250517113423.png)
+![129](IMG/Pasted%20image%2020250612203202.png)
 
 Y como en el ejemplo del móvil, añadimos el par en el Mikrotik.
 
-![130](IMG/Pasted%20image%2020250517113527.png)
+![130](IMG/Pasted%20image%2020250612203210.png)
 
 Si lo activamos vemos que tanto received como sent está variando, lo cual es correcto.
 
-![131](IMG/Pasted%20image%2020250517113627.png)
+![131](IMG/Pasted%20image%2020250612203218.png)
 
 >[!tip] 
 Y vemos que hacemos Ping correctamente
