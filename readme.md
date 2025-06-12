@@ -490,7 +490,7 @@ Ahora nos vamos al apartado **VLAN** y activamos VLAN Filtering
 ![47.1](IMG/Pasted%20image%2020250509143418.png)
 Ahora le damos a Apply y a OK.
 
-> [!info]
+> [!important]
 > El **VLAN filtering** en MikroTik es una función que permite al bridge manejar el tráfico VLAN de forma inteligente, es decir, puede etiquetar, des-etiquetar y separar el tráfico por VLAN directamente en el bridge sin necesidad de usar interfaces VLAN independientes. Al activarlo, puedes definir qué puertos del bridge aceptan o envían tráfico de ciertas VLANs (modo _access_ o _trunk_), lo que permite segmentar la red de forma segura y eficiente directamente desde el switch integrado del router.
 >
 >Es decir, si no activamos **VLAN Filtering**, Mikrotik actúa como si fuera un simple switch, no segmentaría ni separaría las distintas VLAN y mezclaría todo el tráfico.
@@ -603,12 +603,13 @@ Para hacerlo en Mikrotik es más sencillo, nos vamos a IP > Firewall > Filter Ru
 * **Chain: input.** En este caso es Input porque el tráfico termina en el router.
 * **Protocol: 6 (tcp).** Protocolo TCP.
 * **In. Interface: ether1.** La interfaz por la que va a venir el tráfico es la ether1.
-![[Pasted image 20250428083729.png]]
+![](IMG/Pasted%20image%2020250428083729.png)
 * **Action:** accept. Aceptamos ese tráfico.
 
 ![61](IMG/Pasted%20image%2020250428083614.png)
 
-> [!] Podemos acceder, ahora probamos a deshabilitarla.
+> [!tip] 
+Podemos acceder, ahora probamos a deshabilitarla.
 
 ![62](IMG/Pasted%20image%2020250428083658.png)
 ![63](IMG/Pasted%20image%2020250428083908.png)
@@ -621,7 +622,8 @@ Ahora seguimos casi el mismo procedimiento para Telnet, cambiamos el puerto por 
 ![64](IMG/Pasted%20image%2020250428085011.png)
 ![65](IMG/Pasted%20image%2020250428085026.png)
 
-![[Pasted image 20250428085340.png]]
+![65.1](IMG/Pasted%20image%2020250428085340.png)
+
 Y así quedaría nuestra tabla de reglas, la primera es para poder conectarme desde Winbox (Interfaz gráfica) y la última para hacer drop de todo lo que no esté permitido. Podríamos directamente no haber creado la regla, pero por el ejemplo la he hecho. Lo mismo en el caso de VyOS, si se bloquea todo menos lo que se permita, no hace falta crear un bloqueo.
 
 ## NAT
@@ -686,17 +688,22 @@ Nos vamos a IP > Firewall > Firewall Rules > +
 Creamos una regla Forward ya que lo vamos a redirigir a un equipo que no es el router (si no, sería input). En Action ponemos Accept para que acepte la conexión.
 
 ![71](IMG/Captura%201.png)
+
 En el otro equipo con IP 192.168.20.253 tiene un XAMPP con Apache en los puertos 90 para HTTP y 500 para HTTPS.
 
 ![72](IMG/Pasted%20image%2020250429090721.png)
+
 Luego, en IP > Firewall > NAT agregamos una nueva regla que diga que todo el tráfico que le llegue al puerto 80, se le redirija al 90.
 
 ![73](IMG/Pasted%20image%2020250429090311.png)
+
 El Action en este caso es dst-nat. Apuntamos hacia la IP que contiene el Apache y el puerto por el que corre.
 
 ![74](IMG/Pasted%20image%2020250430082251.png)
+
 > [!tip] 
 Intentamos acceder desde el navegador y funciona correctamente.
+
 ### **Resumen de las 4 cadenas de NAT de MikroTik:**
 
 1. **`srcnat`**: Se usa para modificar la **dirección IP de origen** de los paquetes que salen de la red (usualmente para enmascaramiento).
@@ -733,9 +740,11 @@ Entorno de prueba
 ### <u>VyOS</u>
  
 Aquí muestro las interfaces:
+
 ![75](Pasted%20image%2020250512215437.png)
 
 Ponemos estos comandos:
+
 ![76](Pasted%20image%2020250512220618.png)
 
 ```python
@@ -769,10 +778,12 @@ Primero le asignamos las direcciones IP a las interfaces en IP > Addresses
 Ahora, para compartir las redes nos vamos a **IP > Firewall > Address Lists > +** y creamos una nueva.  
 En `List` ponemos el nombre que queramos, en mi caso, **nueva**.  
 En `Address` ponemos la red que queremos anunciar (compartir), en mi caso, la `192.168.10.0/24` y la `192.168.30.0/24`.  
+
 ![77](IMG/Pasted%20image%2020250512221402.png)  
 ![78](IMG/Pasted%20image%2020250512221457.png)
 
 Tendría que quedar algo así:  
+
 ![79](IMG/Pasted%20image%2020250512221625.png)
 
 > [!tip]  
@@ -781,6 +792,7 @@ Tendría que quedar algo así:
 Ahora nos iríamos a **Routing > BGP > Connection > +**
 
 Y rellenamos los campos necesarios:  
+
 ![80](IMG/Pasted%20image%2020250512221921.png)
 
 * **Name:** Le ponemos el nombre que queramos, lo dejo por defecto.
@@ -790,7 +802,8 @@ Y rellenamos los campos necesarios:
 * **Remote AS:** Número AS que configuramos en nuestro router VyOS, en mi caso, 65001.
 * **Local Role:** eBGP. Usamos eBGP porque es comunicación entre distintos AS.
 
->[!question] ¿eBGP? ¿iBGP?
+>[!note] 
+¿eBGP? ¿iBGP?
 >Existen distintos 2 tipos de protocolo BGP, esencialmente:
 >
 >#### **eBGP (External BGP)**
@@ -813,28 +826,31 @@ Y rellenamos los campos necesarios:
 >- 💬 **No cambia el AS-Path**.
 
 Ahora, para que se compartan las redes, nos vamos al apartado `Filter`
-![[Pasted image 20250512231441.png]]
+![](IMG/Pasted%20image%2020250512231441.png)
 En Output Network, elegimos lo que creamos antes, en mi caso, `nueva`, y le damos a Apply y Ok.
 
->[!success] Ahora si nos vamos al apartado `Sessions` podemos ver que hay una `E` a la izquierda del todo, significando `Established`. Lo que suele confirmar que la configuración es correcta y se han conectado con éxito
+>[!tip] 
+Ahora si nos vamos al apartado `Sessions` podemos ver que hay una `E` a la izquierda del todo, significando `Established`. Lo que suele confirmar que la configuración es correcta y se han conectado con éxito
 
-![[Pasted image 20250512231534.png]]
+![](IMG/Pasted%20image%2020250512231534.png)
 
 > **¿Qué información podemos ver?**
 > Entre otras cosas, podemos ver algo llamado `Prefix Count`, que vienen a ser las redes que están siendo compartidas, en nuestro caso, 2. `Uptime`, que nos dice el tiempo que lleva activo, y otras cosas como la configuración hecha anteriormente y datos de tráfico.
 
 Ahora nos vamos a IP > Route.
-![[Pasted image 20250512232214.png]]
+![](IMG/Pasted%20image%2020250512232214.png)
 En la imagen podemos observar que aparecen rutas nuevas con las indicaciones `DAb`, `b` significando que es obtenido mediante `bgp`. En este caso, tales redes son la 20 y la 30.
 
->[!question] ¿Y como lo miro en VyOS?
+>[!note] 
+¿Y como lo miro en VyOS?
 >En VyOS podemos escribir el siguiente comando
 
 ```python
 show ip bgp
 ```
 
-![[Pasted image 20250512232450.png]]
+![](IMG/Pasted%20image%2020250512232450.png)
+
 Con ese comando nos devuelve la imagen anterior, la cual indica las rutas que tenemos, **siendo 0.0.0.0 rutas locales**.
 
 Si ponemos
@@ -842,19 +858,25 @@ Si ponemos
 show bgp neighbors
 ```
 
-![[Pasted image 20250512233211.png]]
+![81](IMG/Pasted%20image%2020250512233211.png)
+
 También podemos ver más información como el Router ID remoto, local, el tiempo que ha estado establecida la conexión, los `Prefix` que se comparten, etc...
 
 Vamos a hacer una prueba, van a haber 2 máquinas, cada una en una red diferente de un router diferente, vamos a comprobar que pueden hacer ping entre ellas.
-![[Pasted image 20250512234347.png]]
+
+![82](IMG/Pasted%20image%2020250512234347.png)
+
 A la izquierda, la máquina perteneciente a la red de nuestro router Mikrotik (192.168.10.0/24), a la derecha, nuestra máquina perteneciente a la red de nuestro router VyOS (192.168.20.0/24) con sus respectivos traceroute. 
 
->[!success] PING
+>[!tip] 
+PING
+
 >Podemos ver que el PING entre ellos es un éxito
 
 ## Enrutamiento OSPF
 
->[!question] ¿Qué es OSPF?
+>[!info] 
+¿Qué es OSPF?
 >**OSPF (Open Shortest Path First)** es un protocolo de enrutamiento **interior (IGP)** que se utiliza dentro de un mismo sistema autónomo (AS). Utiliza el algoritmo de Dijkstra (estado de enlace) para calcular la ruta más corta a cada destino en la red. Es dinámico, converge rápidamente y soporta jerarquías mediante áreas para optimizar el rendimiento y reducir la sobrecarga.
 
 | Característica             | OSPF                              | BGP                                |
@@ -871,7 +893,9 @@ A la izquierda, la máquina perteneciente a la red de nuestro router Mikrotik (1
 | Transporte                 | IP directo (Protocolo 89)         | TCP (puerto 179)                   |
 
 
->[!tip] Conceptos para entender los comandos:
+>[!tip] 
+Conceptos para entender los comandos:
+
 >### 🧩 1. **Áreas**
 >
 >OSPF divide la red en **áreas lógicas** para reducir la complejidad y el tráfico de enrutamiento.
@@ -905,7 +929,7 @@ A la izquierda, la máquina perteneciente a la red de nuestro router Mikrotik (1
 >Cada comando `network` le dice a OSPF **qué redes están directamente conectadas** al router y **deberían ser incluidas en el enrutamiento OSPF**.
 
 >[!info] Topología actual para la prueba:
-![[Pasted image 20250515134936.png]]
+![82](IMG/Pasted%20image%2020250515134936.png)
 
 ### <u>VyOS</u>
 
@@ -938,18 +962,22 @@ save
 >El equivalente en Mikrotik es **`redistribute connected`**
 
 
-![[Pasted image 20250515135330.png]]
-![[Pasted image 20250515135358.png]]
+![83](IMG/Pasted%20image%2020250515135330.png)
+![84](IMG/Pasted%20image%2020250515135358.png)
 
 ### <u>Mikrotik</u>
 
 Primero hay que asignarle el Router ID, nos vamos a Routing > Router ID > +
-![[Pasted image 20250515135627.png]]
+
+![85](IMG/Pasted%20image%2020250515135627.png)
+
 * **Name**: Le ponemos el nombre que queramos, dejo el por defecto.
 * **ID**: Es el identificador **único** del router.
 
 Ahora nos vamos a Routing > OSPF > Instances > +
-![[Pasted image 20250515143202.png]]
+
+![86](IMG/Pasted%20image%2020250515143202.png)
+
 - **Router ID**: Le ponemos id-1, que es el nombre del Router ID que creamos anteriormente.
 - **Name**: Como antes, le ponemos el nombre que queramos, lo dejo por defecto.
 - **Redistribute**: Le pongo connected, y como podemos ver, hay incluso BGP, por lo que se puede combinar BGP + OSPF.
@@ -957,7 +985,9 @@ Ahora nos vamos a Routing > OSPF > Instances > +
 Le damos a Apply y Ok.
 
 Ahora nos vamos a Areas > +
-![[Pasted image 20250515141648.png]]
+
+![87](IMG/Pasted%20image%2020250515141648.png)
+
 - **Name**: Como siempre, le ponemos el nombre que queramos.
 - **Instance**: Ponemos la instancia que creamos antes en el apartado "Instances".
 - **Area ID**: Ponemos el mismo Area ID que en VyOS (que era la 0) ya que OSPF interpresa las áreas en formatos de 32 bits (como las IPs).
@@ -965,7 +995,9 @@ Ahora nos vamos a Areas > +
 Le damos a Apply y Ok.
 
 Seguidamente nos vamos a Interface Templates > +
-![[Pasted image 20250515142025.png]]
+
+![88](IMG/Pasted%20image%2020250515142025.png)
+
 - **Interfaces**: Ponemos la interfaz que conecta con el otro router, en este caso, la ether1 (o ether0). Si no tuviéramos el `reditribute static` habría que poner todas la interfaces.
 - **Area**: Ponemos el nombre del area que creamos anteriormente.
 - **Authentication**: Seleccionamos MD5.
@@ -975,20 +1007,25 @@ Seguidamente nos vamos a Interface Templates > +
 >[!warning]
 >Si no ponemos el `redistribute connected` en Mikrotik, tendremos que poner las interfaces que queremos anunciar, pero **ojo**, no en todas hay que poner la autenticación, solo en la que distribuye las rutas, en nuestro caso **eth1 (eth0)**.
 
->[!question] ¿Por qué no `redistribute static`?
+>[!info] 
+¿Por qué no `redistribute static`?
 >`reditribute static` tiene un significado diferente en Mikrotik. Mientras que `static` son las rutas agregadas manualmente (en IP → Routes), `connected` son las redes directamente conectadas a interfaces activas (eth2, eth3, etc...).
 
 Le damos a Apply y Ok.
 
 Y ahora si nos vamos a OSPF > Neighbors
-![[Pasted image 20250515142812.png]]
+
+![89](IMG/Pasted%20image%2020250515142812.png)
 
 Si vamos ahora a IP > Routes
-![[Pasted image 20250515143820.png]]
->[!success] Podemos ver que hay rutas con una ``o`` al final, significado OSPF.
+
+![90](IMG/Pasted%20image%2020250515143820.png)
+
+>[!tip] 
+Podemos ver que hay rutas con una ``o`` al final, significado OSPF.
 
 Hacemos una prueba con Ping:
-![[Pasted image 20250515144051.png]]
+![91](IMG/Pasted%20image%2020250515144051.png)
 
 >Podemos ver que se ha conectado a nuestro VyOS y se han compartido las rutas, en nuestro otro router, podemos comprobarlo también.
 
@@ -1000,29 +1037,35 @@ show ip ospf route
 ping 192.168.40.1 # Interfaz en el router Mikrotik
 ```
 
-![[Pasted image 20250515143704.png]]
+![92](IMG/Pasted%20image%2020250515143704.png)
 
 ### Anunciar redes aisladas en Mikrotik
 
 Como dije anteriormente, usamos `connected` para anunciar, pero eso es realmente si lo que queremos es anunciar todas las redes que tenemos, algo que puede ser que no queramos, por eso tenemos que hacer un par de pasos extra más.
 
->[!info]
+>[!note]
 >Para esta prueba la topología es la siguiente:
 >- VyOS: VLAN 10 y 30.
 >- Mikrotik: VLAN 20 y 40.
 
 Nos vamos a Firewall > Address Lists > +
-![[Pasted image 20250604130058.png]]
+
+![93](IMG/Pasted%20image%2020250604130058.png)
+
 Ponemos el nombre que queramos, en mi caso `OSPF` y añadimos la dirección que queremos anunciar. Hacemos lo mismo con todas las redes que queramos anunciar en un futuro, solo que en vez de escribir el nombre, lo seleccionamos de la lista.
 
 En ``Routing > OSPF > Instances`` se queda igual.
-![[Pasted image 20250604130339.png]]
+
+![94](IMG/Pasted%20image%2020250604130339.png)
 
 ``Areas`` también se queda igual.
-![[Pasted image 20250604130421.png]]
+
+![95](IMG/Pasted%20image%2020250604130421.png)
 
 Ahora cambia la cosa en `Routing > OSPF > Interface Templates.`
-![[Pasted image 20250604130557.png]]
+
+![96](IMG/Pasted%20image%2020250604130557.png)
+
 Tenemos que crear un primer `Interface Template` que es el que conecta con el otro router, es decir, el que está en la misma red (192.168.1.0/24). En ese vamos a hacer lo siguiente:
 
 - **Interfaces**: Ponemos la interfaz que conecta con el router (ether6 en mi caso).
@@ -1033,15 +1076,19 @@ Tenemos que crear un primer `Interface Template` que es el que conecta con el ot
 - **Auth. ID**: El mismo que VyOS, 1.
 
 Añadimos otro `Interface Template`.
-![[Pasted image 20250604133748.png]]
+
+![97](IMG/Pasted%20image%2020250604133748.png)
+
 En este caso, no añadimos nada en `Interfaces`. Tampoco ponemos nada en la autenticación, pero sí debemos poner en **``Prefix List``** la lista de direcciones que creamos antes en el apartado `Firewall`.
 
-![[Pasted image 20250604134028.png]]
->[!success] Y ahí lo tendríamos, funciona correctamente.
+![98](IMG/Pasted%20image%2020250604134028.png)
+
+>[!tip] 
+Y ahí lo tendríamos, funciona correctamente.
 
 ## 8. VRRP (Failover)
 
->[!info]
+>[!note]
 VRRP (Virtual Router Redundancy Protocol) es un protocolo que permite tener alta disponibilidad para la puerta de enlace (gateway) en una red local.
 >
 Se configuran dos o más routers (o equipos) que comparten una IP virtual, que será la IP de la puerta de enlace para los dispositivos de la LAN.
@@ -1050,7 +1097,8 @@ Solo un router actúa como MASTER y responde a esa IP virtual.
 >
 Si el MASTER falla, otro router pasa a ser MASTER y toma la IP virtual, asegurando continuidad de conexión sin necesidad de cambiar la configuración de los clientes.
 
->[!info] TOPOLOGÍA
+>[!note] 
+TOPOLOGÍA
 >La topología que tenemos para esta prueba es la siguiente:
 >- VyOS:
 >	- VRRP
@@ -1117,7 +1165,8 @@ chmod +x /config/scripts/vrrp-dhcp-backup.sh
 ```
 
 
->[!question] **¿Por qué hacemos esto así?**
+>[!note] 
+**¿Por qué hacemos esto así?**
 >Realmente, la única red que comparten que puede dar conflicto al haber servidores DHCP tanto el router VyOS como el Mikrotik es la **red interna5** ya que en el Mikrotik corresponde a la VLAN20 pero en VyOS corresponde a la VLAN30.
 >
 >Entonces lo que hacemos es simplemente quitar ese servidor DHCP del VyOS cuando está en estado Backup (Mikrotik activo) y añadirlo cuando esté en estado Master (Mikrotik caído).
@@ -1125,7 +1174,8 @@ chmod +x /config/scripts/vrrp-dhcp-backup.sh
 > #### **¿Qué sería lo mas lógico a nivel real?**
 > Simplemente, que VyOS tenga en vez de la VLAN30, otra VLAN20 que haga de respaldo a la VLAN20 del Mikrotik para que los clientes no tengan que volver a pedir IP cuando este caiga. **Pero por motivos de pruebas, he decidido hacerlo así**.
 
->[!info] Una vez terminado el script, vamos a crear el VRRP en si.
+>[!note] 
+Una vez terminado el script, vamos a crear el VRRP en si.
 
 ```python
 set high-availability vrrp group 1 interface 'eth0' # Decimos que la conexión VRRP irá por la interfaz eth0
@@ -1141,34 +1191,43 @@ commit
 save
 ```
 
->[!warning] **IMPORTANTE**
+>[!warning] 
+**IMPORTANTE**
 >Si usamos otro router para conectar con nuestro VyOS, es importante aclarar que **por defecto usa la versión 2 de VRRP**, con el comando `set high-availability vrrp global-parameters version 3` lo podemos cambiar a la versión 3, que es la que usa nuestro Mikrotik.
 
 
-![[Pasted image 20250519212041.png]]
+![99](IMG/Pasted%20image%2020250519212041.png)
 
 ### <u>Mikrotik</u>
 
 Nos vamos a Interfaces > VRRP
-![[Pasted image 20250519213247.png]]
+
+![100](IMG/Pasted%20image%2020250519213247.png)
+
 - **Name**: El que queramos, dejo por defecto.
 
-![[Pasted image 20250519213520.png]]
+![101](IMG/Pasted%20image%2020250519213520.png)
+
 - **Interface**: Ponemos la interfaz que conecta con el router, en este caso, ether0.
 - **VRID**: Ponemos el mismo que en VyOS, en mi caso, 1.
 - **Priority**: Ponemos una prioridad superior a la de VyOS.
 
 Ahora nos vamos a IP > Addresses > +
-![[Pasted image 20250519214052.png]]
+
+![102](IMG/Pasted%20image%2020250519214052.png)
+
 - **Address**: Ponemos la IP Virtual que pusimos anteriormente, la 192.168.1.254/24.
 - **Interface**: vrrp1.
 
-![[Pasted image 20250519214415.png]]
-![[Pasted image 20250519214519.png]]
+![103](IMG/Pasted%20image%2020250519214415.png)
+![104](IMG/Pasted%20image%2020250519214519.png)
+
 Ahí vemos RM, lo que dice que está funcionando y en estado de ``Master``.
 
 También nos vamos a ``IP > Firewall > NAT > +``
-![[Pasted image 20250605121313.png]]
+
+![105](IMG/Pasted%20image%2020250605121313.png)
+
 Creamos esas 2 reglas para que pueda salir a internet, la primera marca que la interfaz de salida es la WAN y la 2ª que la interfaz de salida es el VRRP colgando de ether6. Con la de VRRP debería valer, pero por precaución, pongo las 2.
 
 Ahora vemos en VyOS:
@@ -1179,29 +1238,36 @@ show vrrp
 show vrrp detail
 ```
 
-![[Pasted image 20250519215025.png]]
-![[Pasted image 20250519215044.png]]
+![106](IMG/Pasted%20image%2020250519215025.png)
+![107](IMG/Pasted%20image%2020250519215044.png)
 
-![[Pasted image 20250605084844.png]]
+![108](IMG/Pasted%20image%2020250605084844.png)
+
 Vemos que nuestro debian se ha unido a nuestro Mikrotik
 
-![[Pasted image 20250605112056.png]]
->[!success] Hacemos Ping
+![109](IMG/Pasted%20image%2020250605112056.png)
+>[!tip] Hacemos Ping
 
-![[Pasted image 20250605112456.png]]
+![110](IMG/Pasted%20image%2020250605112456.png)
+
 Si nos fijamos, ahora no tenemos ningún servicio DHCP activo.
 
 >**Ahora vamos a hacer ping continuo y vamos a apagar el router Mikrotik:**
 
-![[Pasted image 20250605113013.png]]
+![111](IMG/Pasted%20image%2020250605113013.png)
+
 Nos esperamos unos segundos y vemos que se crean los servicios DHCP.
 
 Observamos que la IP activa es la 192.168.30.100.
-![[Captura de pantalla 2025-06-05 112559.png]]
+
+![112](Captura%20pantalla20%205-06-05 112559.png)
 
 Y ahora si volvemos a activar el Mikrotik:
-![[Pasted image 20250605113315.png]]
->[!success] Se elimina el servidor DHCP y VRRP pasa a ``BACKUP``
+
+![113](IMG/Pasted%20image%2020250605113315.png)
+
+>[!tip] 
+Se elimina el servidor DHCP y VRRP pasa a ``BACKUP``
 
 ---
 
@@ -1209,7 +1275,8 @@ Y ahora si volvemos a activar el Mikrotik:
 
 Ahora vamos a hablar de lo que yo considero que a nivel de producción es una de las cosas mas útiles en pequeñas y medianas empresas y que además se ha interpuesto entre una de los servicios de VPN mas conocidos, OpenVPN.
 
->[!question] ### ¿Qué es WireGuard?❓
+>[!note] 
+### ¿Qué es WireGuard?❓
 >
 >- Es un VPN de código abierto que utiliza criptografía moderna.
   >  
@@ -1220,7 +1287,8 @@ Ahora vamos a hablar de lo que yo considero que a nivel de producción es una de
 >- Usa menos líneas de código que OpenVPN, lo que reduce la superficie de ataque y facilita su auditoría y mantenimiento.
 
 
->[!question] ### ¿Por qué se ha impuesto ante OpenVPN en pymes?
+>[!note] 
+### ¿Por qué se ha impuesto ante OpenVPN en pymes?
 >
 >1. **Rendimiento superior**: WireGuard ofrece velocidades más altas y menor latencia, ideal para empresas que necesitan conexiones estables y rápidas.
   >  
@@ -1232,7 +1300,7 @@ Ahora vamos a hablar de lo que yo considero que a nivel de producción es una de
   >  
 >5. **Soporte multiplataforma**: Funciona en Linux, Windows, macOS, Android y iOS, lo cual es crucial en entornos mixtos de pymes.
 
->[!info] En resumen, **WireGuard se ha convertido en la opción preferida de muchas pequeñas y medianas empresas por su simplicidad, eficiencia y seguridad**, superando a OpenVPN en la mayoría de los escenarios de uso empresarial modernos.
+>[!note] En resumen, **WireGuard se ha convertido en la opción preferida de muchas pequeñas y medianas empresas por su simplicidad, eficiencia y seguridad**, superando a OpenVPN en la mayoría de los escenarios de uso empresarial modernos.
 
 >[!note]
 >Para continuar, debemos saber que WireGuard trabaja con **pares de claves privada/pública**, lo cual es una de sus desventajas frente a OpenVPN.
@@ -1266,16 +1334,17 @@ commit
 save
 ```
 
-![[Pasted image 20250516221946.png]]
+![114](IMG/Pasted%20image%2020250516221946.png)
 
 #### Configuración en el móvil
-![[Pasted image 20250516230756.png|300]]
+![115]Pa/ed ima%20e 202%200516230756.png)
 - **Nombre**: Le puedes poner el nombre que quieras, en mi caso VyOS.
 - **Clave privada**: Se genera automáticamente.
 - **Clave pública**: Es necesaria para configurar el par en el servidor, como vimos anteriormente en los comandos, la tuvimos que pegar.
 - **Direcciones**: Le ponemos la IP que tenga dentro de la subred que creamos junto al /32.
 
->[!question] #### ¿Por qué `/32` es mejor?✅
+>[!tip] 
+#### ¿Por qué `/32` es mejor?✅
 >
 >- Define que el cliente solo tiene una IP: `10.0.0.2`.
   >  
@@ -1283,20 +1352,25 @@ save
  >   
 >- Es más seguro y evita confusiones de ruteo.
 
-![[Pasted image 20250516230442.png|300]]
+![116[Pa[](IMG/ed ima%20e 202%200516230442.png|300)
+
 - **Clave pública**: Aquí hay que introducir la clave que nos generó uno de los primeros comandos que pusimos.
 - **Endpoint**: Se refiere a la dirección del servidor WireGuard, en mi caso, mi DNS que apunta a la máquina virtual VyOS por el puerto 51820
 - **IPs permitidas**: Ponemos 0.0.0.0/0 para enrutar todo el tráfico del cliente por el túnel VPN.
 
 Y ya le podemos dar al disquete para guardar.
 
-![[Pasted image 20250516231512.png|300]]
+![117[Pa[](IMG/ed ima%20e 202%200516231512.png|300)
+
 Una vez que la activemos, para saber si realmente está funcionando nuestro túnel, nos fijamos en las estadísticas `rx` y `tx` significando recibido y enviado respectivamente, si el apartado `rx` va aumentado, es un indicio de que está correctamente configurado, de todos modos, vamos a probar a hacer ping directamente el router.
 
-![[Pasted image 20250516231725.png]]
->[!success] Como podemos observar, le hace ping correctamente.
+![118](IMG/Pasted%20image%2020250516231725.png)
 
->[!warning]  ### IMPORTANTE
+>[!tip] 
+Como podemos observar, le hace ping correctamente.
+
+>[!warning]  
+### IMPORTANTE
 >Aunque suene lógico, es muy importante que cuando intentemos conectarnos al túnel estemos fuera de la red a la que queremos conectarnos, ya que si no, no funcionaría para nada e incluso nos podría dar problemas de conexión.
 
 ### <u>Mikrotik</u>
@@ -1304,7 +1378,9 @@ Una vez que la activemos, para saber si realmente está funcionando nuestro tún
 Ahora vamos a hacerlo en Mikrotik:
 
 Nos vamos a WireGuard > +
-![[Pasted image 20250516232206.png]]
+
+![119](IMG/Pasted%20image%2020250516232206.png)
+
 - **Name**: El que queramos, lo dejo por defecto.
 - **Listen Port**: Lo mismo, podemos poner el que queramos, pero yo lo dejo por defecto.
 - La ``private key`` y la `public key` se generan a la hora de darle a `Apply`
@@ -1312,27 +1388,37 @@ Nos vamos a WireGuard > +
 Le damos a Apply y a Ok, importante copiar la public key para enviarla a nuestro móvil.
 
 Ahora nos vamos a Peer > +
-![[Pasted image 20250516232640.png|400]]
+
+<img src="IMG/Pasted%20image%2020250612195444.png" width="400">
+
 - **Name**: Como siempre, el que queramos.
 - **Interface**: wireguard1, la que pone por defecto (En el apartado Interfaces se puede cambiar el nombre si queremos).
 - **Allowed address**: Ponemos 0.0.0.0/0.
 
 Le damos a Apply y Ok. Ahora, antes de intentar conectarnos, vamos a ir a IP > Addresses y le vamos a asignar una IP a nuestra interfaz Wireguard1.
-![[Pasted image 20250516233200.png]]
+
+![121](IMG/Pasted%20image%2020250516233200.png)
+
 En mi caso, voy a usar la red 20.0.0.0/24, le damos a Apply y a Ok y nos vamos al móvil.
-![[Pasted image 20250517111847.png|300]]
+
+![122[Pa[](IMG/ed ima%20e 202%200517111847.png|300)
+
 La configuración es prácticamente la misma a la anterior, lo único que cambia es el puerto del `endpoint`, la ``dirección IP`` que ponemos arriba y la `Clave Pública` del par (servidor).
 
-![[Pasted image 20250517110738.png]]
+![123](IMG/Pasted%20image20250517110738.png)
 
-![[Pasted image 20250517112029.png|300]]
->[!success] Vemos que tanto rx como tx está variando.
 
-![[Pasted image 20250517112056.png|300]]
+
+>[!tip] 
+Vemos que tanto rx como tx está variando.
+
+![125[Pa[](IMG/ed ima%20e 202%200517112056.png|300)
+
 Y que tenemos internet sin problemas
 
-![[Pasted image 20250517112201.png]]
->[!success] Y hacemos Ping sin problema.
+![126](IMG/Pasted%20image%2020250517112201.png)
+
+>[!tip] Y hacemos Ping sin problema.
 
 >[!warning]
 >Yo no he puesto manualmente los DNS porque no me ha hecho falta, pero es **bastante recomendable** usarlos.
@@ -1340,10 +1426,12 @@ Y que tenemos internet sin problemas
 ### <u>En PC</u>
 
 Ahora vamos a ver como se haría, pero en PC.
-![[Pasted image 20250517113005.png]]
+
+![127](IMG/Pasted%20image%2020250517113005.png)
 
 En la flechita de Añadir túnel seleccionamos "Añadir túnel vacío".
-![[Pasted image 20250517113245.png]]
+
+![128](IMG/Pasted%20image%2020250517113245.png)
 
 Esa sería básicamente la configuración
 ```python
@@ -1358,14 +1446,18 @@ Endpoint = vpnjesus.zapto.org:13231 # Nuesta dirección junto al puerto
 AllowedIPs = 0.0.0.0/0
 ```
 
-![[Pasted image 20250517113423.png]]
+![129](IMG/Pasted%20image%2020250517113423.png)
+
 Y como en el ejemplo del móvil, añadimos el par en el Mikrotik.
 
-![[Pasted image 20250517113527.png]]
+![130](IMG/Pasted%20image%2020250517113527.png)
+
 Si lo activamos vemos que tanto received como sent está variando, lo cual es correcto.
 
-![[Pasted image 20250517113627.png]]
->[!success] Y vemos que hacemos Ping correctamente
+![131](IMG/Pasted%20image%2020250517113627.png)
+
+>[!tip] 
+Y vemos que hacemos Ping correctamente
 
 
 ---
@@ -1507,8 +1599,10 @@ save
 ssh usuario1@192.168.1.144
 ```
 
-![[Pasted image 20250515210018.png]]
->[!success] Tenemos acceso
+![131](IMG/Pasted%20image%2020250515210018.png)
+
+>[!tip] 
+Tenemos acceso
 
 ### <u>Mikrotik</u>
 
@@ -1516,24 +1610,29 @@ En Mikrotik también es igual de sencillo.
 
 Nos vamos a RADIUS > +
 
-![[Pasted image 20250515210137.png]]
+![132](IMG/Pasted%20image%2020250515210137.png)
 
 * **Service**: Para qué vamos a usar este servidor RADIUS, en nuestro caso, `login`.
 * **Address**: Dirección IP de nuestro servidor RADIUS.
 * **Secret**: Contraseña `secret` que introducimos anteriormente, en mi caso, usuario.
 * **Require Message Auth**: no. En mi caso lo puse en no porque no configuré ningún mensaje.
 
->[!warning] IMPORTANTE
+>[!warning] 
+#### IMPORTANTE
 >Es importante poner `Require Message Auth` en `no` si no lo tenemos configurado, ya que si lo dejamos en `yes` nos puede dar error y no iniciarnos sesión.
 
 Le damos a Apply y Ok.
 
-![[Pasted image 20250515210540.png]]
+![133](IMG/Pasted%20image%2020250515210540.png)
+
 Ahora intentamos conectarnos usando el usuario que creamos en el servidor RADIUS.
 
 Y ahora, si nos vamos a System > Users
-![[Pasted image 20250515210635.png]]
->[!success] Vemos que tenemos a nuestro usuario del servidor RADIUS.
+
+![134](IMG/Pasted%20image%2020250515210635.png)
+
+>[!tip] 
+Vemos que tenemos a nuestro usuario del servidor RADIUS.
 # 11. Comparación general ⏹️
 
 | Criterio                         |                            Mikrotik                            |                               VyOS                               |
