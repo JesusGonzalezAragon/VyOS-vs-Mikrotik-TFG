@@ -482,12 +482,12 @@ El mismo concepto se aplica en Mikrotik, aunque la implementación sea diferente
 
 Lo primero que vamos a hacer en Mikrotik va a ser ir a Interfaces > + > Bridge.
 
-![47](Pasted%20image%2020250509142719.png)
+![47](IMG/Pasted%20image%2020250509142719.png)
 
 Vamos a llamarle simplemente "bridge1"
 
 Ahora nos vamos al apartado **VLAN** y activamos VLAN Filtering
-![[Pasted image 20250509143418.png]]
+![47.1](IMG/Pasted%20image%2020250509143418.png)
 Ahora le damos a Apply y a OK.
 
 > [!info]
@@ -496,7 +496,7 @@ Ahora le damos a Apply y a OK.
 >Es decir, si no activamos **VLAN Filtering**, Mikrotik actúa como si fuera un simple switch, no segmentaría ni separaría las distintas VLAN y mezclaría todo el tráfico.
 
 Ahora, en el mismo apartado de Interface, buscamos la categoría VLAN y le damos al + para crearla.
-![48](Pasted%20image%2020250509142952.png)
+![48](IMG/Pasted%20image%2020250509142952.png)
 
 Teniendo en cuenta lo que está en azul, cambiamos el nombre de la VLAN para que sea VLAN10, el VLAN ID también lo cambiamos al número que queramos, en mi caso 10, y cambiamos Interface a el bridge que hemos creado antes. Le damos a Apply y a Ok.
 
