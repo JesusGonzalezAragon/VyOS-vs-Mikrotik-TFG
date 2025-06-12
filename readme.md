@@ -1686,7 +1686,11 @@ En conclusión, aunque cada uno tiene sus complejidades y he sufrido más en uno
 # 13. Bibliografía 📚
 
 [ChatGPT](https://chatgpt.com/)
+
 [VyOS Docs](https://docs.vyos.io/en/latest/configuration/index.html)
+
 [YouTube de Mikrotik](https://www.youtube.com/mikrotik)
+
 [YouTube](https://www.youtube.com/)
+
 Gran parte de lo que se de Mikrotik lo aprendí de mi jefe Ismael en la empresa.
