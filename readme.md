@@ -225,11 +225,11 @@ Estas configuraciones las vamos a hacer de 2 maneras diferentes para que se vea 
 ### <u>VyOS</u>
 
 #### <u>1er método</u>
-![23](IMG/Pasted%20image%2020250424141016.png|600)
+![23](IMG/Pasted%20image%2020250424141016.png)
 
 <div class="page-break" style="page-break-before: always;"></div>
 
-![24](Pasted%20image%2020250424141303.png)
+![24](IMG/Pasted%20image%2020250424141303.png)
 
 
 ```python
