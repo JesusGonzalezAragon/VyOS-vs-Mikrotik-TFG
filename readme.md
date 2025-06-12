@@ -496,11 +496,13 @@ Ahora le damos a Apply y a OK.
 >Es decir, si no activamos **VLAN Filtering**, Mikrotik actúa como si fuera un simple switch, no segmentaría ni separaría las distintas VLAN y mezclaría todo el tráfico.
 
 Ahora, en el mismo apartado de Interface, buscamos la categoría VLAN y le damos al + para crearla.
+
 ![48](IMG/Pasted%20image%2020250509142952.png)
 
 Teniendo en cuenta lo que está en azul, cambiamos el nombre de la VLAN para que sea VLAN10, el VLAN ID también lo cambiamos al número que queramos, en mi caso 10, y cambiamos Interface a el bridge que hemos creado antes. Le damos a Apply y a Ok.
 
 Ahora, en la barra de la izquierda, nos vamos hacia Bridge > Ports > +
+
 ![49](IMG/Pasted%20image%2020250509143228.png)
 
 Insertamos la interfaz física que queramos asignar a la VLAN 10 al bridge creado anteriormente y después nos vamos a la pestaña VLAN.
@@ -520,6 +522,7 @@ Seguidamente, como vimos anteriormente, creamos el servidor DHCP para esa VLAN.
 ![53](IMG/Captura%201.png)
 
 Ahora renovamos IP en el equipo cliente que está conectado **directamente** por cable al router Mikrotik en el puerto ethernet1 y vemos que nos da perfectamente una IP.
+
 ![54](IMG/Pasted%20image%2020250509144631.png)
 
 En Mikrotik, en DHCP Server > Leases, también vemos perfectamente que se le ha asignado al equipo.
