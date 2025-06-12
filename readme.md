@@ -1,7 +1,7 @@
 <h1>🛠️UNDER CONSTRUCTION🛠️</h1>
 
 >[!important]
-Este documento, aunque casi completo, todavía está en una fase de modificación y corrección así como de mejoras, gracias por su paciencia. Por favor, no dude en hacer un `pull request` si cree que me puede ayudar a mejorar.
+Este documento, aunque casi completo, todavía está en una fase de modificación y corrección así como de mejoras, gracias por su paciencia. Por favor, no dude en hacer un `pull request` o comentar en `Discussions` si crees que me puede ayudar a mejorar.
 
 # Índice
 
