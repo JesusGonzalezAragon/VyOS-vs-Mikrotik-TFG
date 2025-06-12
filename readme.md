@@ -928,7 +928,8 @@ Conceptos para entender los comandos:
 >
 >Cada comando `network` le dice a OSPF **qué redes están directamente conectadas** al router y **deberían ser incluidas en el enrutamiento OSPF**.
 
->[!note] Topología actual para la prueba:
+>[!note]
+>Topología actual para la prueba:
 ![82](IMG/Pasted%20image%2020250515134936.png)
 
 ### <u>VyOS</u>
@@ -1246,7 +1247,8 @@ show vrrp detail
 Vemos que nuestro debian se ha unido a nuestro Mikrotik
 
 ![109](IMG/Pasted%20image%2020250605112056.png)
->[!tip] Hacemos Ping
+>[!tip]
+>Hacemos Ping
 
 ![110](IMG/Pasted%20image%2020250605112456.png)
 
@@ -1275,20 +1277,16 @@ Se elimina el servidor DHCP y VRRP pasa a ``BACKUP``
 
 Ahora vamos a hablar de lo que yo considero que a nivel de producción es una de las cosas mas útiles en pequeñas y medianas empresas y que además se ha interpuesto entre una de los servicios de VPN mas conocidos, OpenVPN.
 
->[!note] 
+
 ### ¿Qué es WireGuard?❓
->
->- Es un VPN de código abierto que utiliza criptografía moderna.
-  >  
->- Funciona en el nivel de red (capa 3) del modelo OSI.
-  >  
->- Está integrado directamente en el kernel de Linux (aunque también está disponible para otros sistemas).
-  >  
->- Usa menos líneas de código que OpenVPN, lo que reduce la superficie de ataque y facilita su auditoría y mantenimiento.
 
+- Es un VPN de código abierto que utiliza criptografía moderna. 
+- Funciona en el nivel de red (capa 3) del modelo OSI.
+- Está integrado directamente en el kernel de Linux (aunque también está disponible para otros sistemas).
+- Usa menos líneas de código que OpenVPN, lo que reduce la superficie de ataque y facilita su auditoría y mantenimiento.
 
 >[!note] 
-### ¿Por qué se ha impuesto ante OpenVPN en pymes?
+>### ¿Por qué se ha impuesto ante OpenVPN en pymes?
 >
 >1. **Rendimiento superior**: WireGuard ofrece velocidades más altas y menor latencia, ideal para empresas que necesitan conexiones estables y rápidas.
   >  
@@ -1300,7 +1298,8 @@ Ahora vamos a hablar de lo que yo considero que a nivel de producción es una de
   >  
 >5. **Soporte multiplataforma**: Funciona en Linux, Windows, macOS, Android y iOS, lo cual es crucial en entornos mixtos de pymes.
 
->[!note] En resumen, **WireGuard se ha convertido en la opción preferida de muchas pequeñas y medianas empresas por su simplicidad, eficiencia y seguridad**, superando a OpenVPN en la mayoría de los escenarios de uso empresarial modernos.
+>[!note]
+>En resumen, **WireGuard se ha convertido en la opción preferida de muchas pequeñas y medianas empresas por su simplicidad, eficiencia y seguridad**, superando a OpenVPN en la mayoría de los escenarios de uso empresarial modernos.
 
 >[!note]
 >Para continuar, debemos saber que WireGuard trabaja con **pares de claves privada/pública**, lo cual es una de sus desventajas frente a OpenVPN.
@@ -1347,9 +1346,10 @@ save
 
 >[!note] 
 ¿Por qué `/32` es mejor?✅
-Define que el cliente solo tiene una IP: `10.0.0.2`.
-No asume que hay una red local de tipo `10.0.0.0/24`, por lo tanto **no intentará hablar con otros pares** ni aceptará tráfico destinado a ellos.
-Es más seguro y evita confusiones de ruteo.
+>
+> * Define que el cliente solo tiene una IP: `10.0.0.2`.
+> * No asume que hay una red local de tipo `10.0.0.0/24`, por lo tanto **no intentará hablar con otros pares** ni aceptará tráfico destinado a ellos.
+> * Es más seguro y evita confusiones de ruteo.
 
 ![116](IMG/Pasted%20image%2020250612203101.png)
 
@@ -1417,7 +1417,8 @@ Y que tenemos internet sin problemas.
 
 <img src="IMG/Pasted image 20250612201118.png" width=300>
 
->[!tip] Y hacemos Ping.
+>[!tip]
+>Y hacemos Ping.
 
 >[!warning]
 >Yo no he puesto manualmente los DNS porque no me ha hecho falta, pero es **bastante recomendable** usarlos.
